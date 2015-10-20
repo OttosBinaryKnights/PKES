@@ -7,16 +7,40 @@
  * bleibt Ihnen überlassen.
  */
 
- int cs = 33;
- int sdc = 35;
- int sdi = 34;
+
+int latchPin = 33;
+int clockPin = 35;
+int dataPin = 34;
 
 void setup() {
-  // put your setup code here, to run once:
-  
+  pinMode(latchPin, OUTPUT);
+  pinMode(clockPin, OUTPUT);
+  pinMode(dataPin, OUTPUT);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  for(int x=0; x<23; x++){
+    out(x);
+   delay(1000);
+  }
+ 
+}
 
+void out(int o){
+  digitalWrite(dataPin, HIGH);
+  Clock();
+  for(int i=0; i<34; i++){
+    /*if(i == o)
+      digitalWrite(dataPin, HIGH);
+    else
+      digitalWrite(dataPin, LOW);*/
+    Clock();
+  }
+}
+
+void Clock(){
+  digitalWrite(clockPin,HIGH);
+  delay(1);
+  digitalWrite(clockPin,LOW);
+  delay(1);
 }
