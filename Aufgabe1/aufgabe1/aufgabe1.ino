@@ -16,16 +16,26 @@
  * Latch PC4
  */
 #define CLOCK_DELAY_MS 1
+int o = 0;
 
 void out(int x) {
   //Startbit
   PORTC |= _BV(PORTC3);
   Clock();
-  for (int i = 1; i < 35; i++) {
-    if(x != i)
-      PORTC &= ~_BV(PORTC3);
-    else
-      PORTC |= _BV(PORTC3);
+  o = (o +1) % 1000;
+  int t = o;
+  int d[3];
+  
+  for (int i = 2; i >= 0; i--) {
+    d[i] = t % 10;
+    t = t/10;
+  }
+
+  for (int i = 0; i <= 2; i++) {
+    ShiftDigit( d[i] );
+  }
+  
+  for (int i = 25; i < 35; i++) {
     Clock();
   }
   //36er Clock - Wird ausgegeben!
@@ -34,14 +44,27 @@ void out(int x) {
 
 //Erzeugt ein Clock-Cycle
 void Clock(void) {
+  _delay_ms(1);
   PORTC |= _BV(PORTC2);
-  _delay_ms(CLOCK_DELAY_MS);
+  _delay_ms(1);
   PORTC &= ~_BV(PORTC2);
-  _delay_ms(CLOCK_DELAY_MS);
+}
+
+void ShiftDigit(int in){
+  
+   for (int i = 7; i >= 0; i--) {
+    byte dig = GetDigit(in);
+    if(((dig >> i)  & 0x01) != 1)
+      PORTC &= ~_BV(PORTC3);
+    else
+      PORTC |= _BV(PORTC3);
+    Clock();
+  }
+  
 }
 
 //Gibt die Segmentbelegung für jedes Digit zurück
-byte Digit(int in){
+byte GetDigit(int in){
   switch(in){
     case 0: return 0b11111100;
     case 1: return 0b01100000;
@@ -52,7 +75,7 @@ byte Digit(int in){
     case 6: return 0b10111110;
     case 7: return 0b11100000;
     case 8: return 0b11111110;
-    case 9: return 0b11011010;
+    case 9: return 0b11110110;
     default: return 0b00000000;
   }
 }
@@ -65,9 +88,9 @@ int main (void)
   DDRC |= _BV(DDC4);  //LATCH
 
   while (1) {
-    for (int x = 0; x <= 24; x++) {
+    for (int x = 9; x <= 24; x++) {
       out(x);
-      _delay_ms( 250);
+      _delay_ms(50);
     }
   }
 }
