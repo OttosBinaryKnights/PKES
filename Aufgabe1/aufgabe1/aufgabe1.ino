@@ -17,17 +17,23 @@
  */
 #define CLOCK_DELAY_MS 1
 
-void out();
-void out(){
+void out(int x) {
+  //Startbit
   PORTC |= _BV(PORTC3);
   Clock();
-  for(int i=0; i<34; i++){
+  for (int i = 1; i < 35; i++) {
+    if(x != i)
+      PORTC &= ~_BV(PORTC3);
+    else
+      PORTC |= _BV(PORTC3);
     Clock();
   }
+  //36er Clock - Wird ausgegeben!
+  Clock();
 }
 
-//Setzt Clock Pin auf High und wieder auf LOW
-void Clock(void){
+//Erzeugt ein Clock-Cycle
+void Clock(void) {
   PORTC |= _BV(PORTC2);
   _delay_ms(CLOCK_DELAY_MS);
   PORTC &= ~_BV(PORTC2);
@@ -36,20 +42,20 @@ void Clock(void){
 
 int main (void)
 {
-  /* set pin 5 of PORTB for output*/
+  /* set die drei Steuerleitungen als Output (in einem Befehl auch möglich?!)*/
   DDRC |= _BV(DDC2);  //CLK
   DDRC |= _BV(DDC3);  //Data
   DDRC |= _BV(DDC4);  //LATCH
 
-Serial.begin(115200);
-Serial.println("STARTING");
- 
- while(1) {
-  for(int x=0; x<23; x++){
-    out();
-    _delay_ms( 1000);
+  Serial.begin(115200);
+  Serial.println("STARTING");
+
+  while (1) {
+    for (int x = 0; x <= 24; x++) {
+      out(x);
+      _delay_ms( 250);
+    }
   }
- }
 }
 
 
