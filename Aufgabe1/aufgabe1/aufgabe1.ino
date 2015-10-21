@@ -40,15 +40,29 @@ void Clock(void) {
   _delay_ms(CLOCK_DELAY_MS);
 }
 
+//Gibt die Segmentbelegung für jedes Digit zurück
+byte Digit(int in){
+  switch(in){
+    case 0: return 0b11111100;
+    case 1: return 0b01100000;
+    case 2: return 0b11011010;
+    case 3: return 0b11110010;
+    case 4: return 0b01100110;
+    case 5: return 0b10110110;
+    case 6: return 0b10111110;
+    case 7: return 0b11100000;
+    case 8: return 0b11111110;
+    case 9: return 0b11011010;
+    default: return 0b00000000;
+  }
+}
+
 int main (void)
 {
   /* set die drei Steuerleitungen als Output (in einem Befehl auch möglich?!)*/
   DDRC |= _BV(DDC2);  //CLK
   DDRC |= _BV(DDC3);  //Data
   DDRC |= _BV(DDC4);  //LATCH
-
-  Serial.begin(115200);
-  Serial.println("STARTING");
 
   while (1) {
     for (int x = 0; x <= 24; x++) {
