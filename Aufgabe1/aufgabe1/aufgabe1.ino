@@ -7,41 +7,51 @@
  * bleibt Ihnen überlassen.
  */
 
+#include <avr/io.h>
+#include <util/delay.h>
 
-int latchPin = 33;
-int clockPin = 35;
-int dataPin = 34;
+/*
+ * Clock PC2
+ * Data PC3
+ * Latch PC4
+ */
+#define CLOCK_DELAY_MS 1
 
-void setup() {
-  pinMode(latchPin, OUTPUT);
-  pinMode(clockPin, OUTPUT);
-  pinMode(dataPin, OUTPUT);
-}
-
-void loop() {
-  for(int x=0; x<23; x++){
-    out(x);
-   delay(1000);
-  }
-
-}
-
-void out(int o){
-  digitalWrite(dataPin, HIGH);
+void out();
+void out(){
+  PORTC |= _BV(PORTC3);
   Clock();
   for(int i=0; i<34; i++){
-    /*if(i == o)
-      digitalWrite(dataPin, HIGH);
-    else
-      digitalWrite(dataPin, LOW);*/
     Clock();
   }
 }
 
-void Clock(){
-  digitalWrite(clockPin,HIGH);
-  delay(1);
-  digitalWrite(clockPin,LOW);
-  delay(1);
-  //Just do it ;)
+//Setzt Clock Pin auf High und wieder auf LOW
+void Clock(void){
+  PORTC |= _BV(PORTC2);
+  _delay_ms(CLOCK_DELAY_MS);
+  PORTC &= ~_BV(PORTC2);
+  _delay_ms(CLOCK_DELAY_MS);
 }
+
+int main (void)
+{
+  /* set pin 5 of PORTB for output*/
+  DDRC |= _BV(DDC2);  //CLK
+  DDRC |= _BV(DDC3);  //Data
+  DDRC |= _BV(DDC4);  //LATCH
+
+Serial.begin(115200);
+Serial.println("STARTING");
+ 
+ while(1) {
+  for(int x=0; x<23; x++){
+    out();
+    _delay_ms( 1000);
+  }
+ }
+}
+
+
+
+
