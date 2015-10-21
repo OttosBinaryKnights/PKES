@@ -1,9 +1,9 @@
 /*
  * Praktische Aufgabe 1:
- * Auf dem Display soll ein Zählwerk sichbar werden, dass im Zahlenbereich 
- * von -199 bis 999 arbeitet. Kommazahlen sind entsprechend zu integrieren. 
- * Ob der Wechsel zwischen Auf- und Abzählen über einen Tastendruck 
- * gesteuert wird oder eine (Arduino-)Zeitfunktion dafür benutzt wird, 
+ * Auf dem Display soll ein Zählwerk sichbar werden, dass im Zahlenbereich
+ * von -199 bis 999 arbeitet. Kommazahlen sind entsprechend zu integrieren.
+ * Ob der Wechsel zwischen Auf- und Abzählen über einen Tastendruck
+ * gesteuert wird oder eine (Arduino-)Zeitfunktion dafür benutzt wird,
  * bleibt Ihnen überlassen.
  */
 
@@ -23,7 +23,7 @@ void loop() {
     out(x);
    delay(1000);
   }
- 
+
 }
 
 void out(int o){
@@ -43,4 +43,5 @@ void Clock(){
   delay(1);
   digitalWrite(clockPin,LOW);
   delay(1);
+  //Just do it ;)
 }
