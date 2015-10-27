@@ -17,18 +17,33 @@
  */
 #define CLOCK_DELAY_MS 1
 int x = 0;
+boolean neg = false;
 
 void out(int o) {
   //Startbit
   PORTC |= _BV(PORTC3);
   Clock();
 
-  //Berechne die einzelnen Werte für Stellen 1-3
   int t = o;
+  
+  //Setzt Negativ flag, falls Wert negativ ist
+  if (o<0) {
+    neg = true;
+    t*=-1;
+  }
+  else neg = false;
+
+  //Berechne die einzelnen Werte für Stellen 1-3
+  
   int d[3];
   for (int i = 2; i >= 0; i--) {
     d[i] = t % 10;
     t = t / 10;
+  }
+
+  if(neg == true){
+    if(d[0] == 1) d[0]=-1;
+    else d[0]=-10;
   }
 
   for (int i = 0; i <= 2; i++) {
@@ -48,6 +63,7 @@ void Clock(void) {
   PORTC |= _BV(PORTC2);
   _delay_ms(1);
   PORTC &= ~_BV(PORTC2);
+  _delay_ms(1);
 }
 
 void ShiftDigit(int in) {
@@ -76,6 +92,8 @@ byte GetDigit(int in) {
     case 7: return 0b11100000;
     case 8: return 0b11111110;
     case 9: return 0b11110110;
+    case -1: return 0b01100010;
+    case -10: return 0b00000010;
     default: return 0b00000000;
   }
 }
@@ -88,11 +106,11 @@ int main (void)
   DDRC |= _BV(DDC4);  //LATCH
 
   while (1) {
-    out(x);
+    out(x-199);
     _delay_ms(50);
     
     // Erhöhe Testausgabe o um 1
-    x = (x + 1) % 1000;
+    x = (x + 1) % 1199;
   }
 }
 
