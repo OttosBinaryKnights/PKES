@@ -8,6 +8,7 @@
 
  **Können alle 3 Systeme als eingebette bezeichnet werden? Stellen Sie dazu Eigenschaften, Komponenten und Anforderungen gegenüber.**
 
+---
 
 ## Aufgabe 2
 **Was beschreibt die Von-Neumann Architektur und wie unterscheidet sie sich von der Harvard-Architektur?**
@@ -64,6 +65,8 @@
    * flexibel erweiterbar
  * Cons:
    * unterschiedliche Abarbeitungszeiten erschweren den Einsatz von Pipelining   
+
+AtMega = CISC
 
 ---
 
