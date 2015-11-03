@@ -11,6 +11,25 @@
 
 ## Aufgabe 2
 **Was beschreibt die Von-Neumann Architektur und wie unterscheidet sie sich von der Harvard-Architektur?**
+* Harvard:        
+ * je ein Befehls- und Datenbus
+   * Befehle und Daten in getrennten Speichern
+ * schneller gleichzeitiger Zugriff auf Code und Daten
+ * kommt hauptsächlich in Signalprozessoren und Mikrocontrollern zum Einsatz
+ * Komponenten: E/A-Werk; Speicherwerk mit getrennten Speichern für Daten u. Programme; CPU bestehend aus Rechenwerk und Steuerwerk; Datenbus und Befehlsbus.
+ * Im CPU kommunizieren Rechen- und Steuerwerk; sonst DS und Rechenwerk über Datenbus und Programmspeicher (CS) mit Steuerwerk über Befehlsbus.
+ * Vorteile: Befehle und Daten können gleichzeitig geladen werden – schnell; Trennung von DS und CS sorgt dafür dass bei fehlerhafter Software kein Programmcode überschrieben werden kann
+ * Nachteile: Freier Programmspeicher kann nicht für Daten genutzt werden oder umgedreht; selbst-modifizierender Code durch Trennung nicht möglich
+
+* Neumann:
+ * nur ein Bus für Befehle und Daten
+   * Befehle und Daten in gemeinsamen Speicher „Architektur des minimalen Hardware-Aufwands“ / „Prinzip des minimalen Speicheraufwands“
+ * flexible Aufteilung des Speichers zwischen Code und Daten
+ * kommt hauptsächlich im allg. Computer vor
+ * Komponenten: Eingabe/Ausgabewerk; Speicherwerk mit gemeinsamen Speicher für Daten und Programme; CPU mit Rechenwerk und Steuerwerk
+ * Rechen- und Steuerwerk tauschen Daten aus
+ * Speicherwerk und CPU tauschen untereinander und mit E/A-Werk Daten aus
+ * Problem: v. Neumann-Flaschenhals Verbindungssystem (Daten und Befehlsbus) wird zum Engpass zwischen Prozessor und Speicher 
 
 ## Pflichtaufgabe A
 **Welche Merkmale unterscheiden RISC- und CISC-Rechner? Was war die Intention zu deren Entwicklung? Wo liegen Vor- und Nachteile? Wo ist der AtMega 2560 einzuordnen?**
