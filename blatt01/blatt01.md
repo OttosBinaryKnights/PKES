@@ -36,6 +36,9 @@
 
 * RISC (Reduced Instruction Set Computer)
  * weniger Instruktionen
+ * elementare Befehle
+ * Umsetzung im Steuerwerk fest verdrahtet
+ * Preiswert in der Herstellung
  * weniger Addressierungsarten
  * Intention: eine Befehlsabarbeitung in jedem Takt
  * Cons:
@@ -52,9 +55,13 @@
  * weniger Register
  * profitiert mehr von Caching
  * Opcode unterschiedlicher länge
+ * komplexere Addressierungsmöglichkeiten
+ * Abarbeitung über Mikroprgramm
  * Intention: komplexe Rechenschritte mit einem Maschienenbefehl ausführen
  * Pros:
    * Große Auswahl an Befehlen
+   * kürzere Programme
+   * flexibel erweiterbar
  * Cons:
    * unterschiedliche Abarbeitungszeiten erschweren den Einsatz von Pipelining   
 
@@ -62,12 +69,28 @@
 
 ## Aufgabe 3
 **Welche Parameter bestimmen die Energieaufnahme eines Mikrocontrollers zur Laufzeit?**
+* Wahl des Betriebsmodis:
+ * Aktive Clocks
+ * Oszillatoren
+ * Wake-UpGeräte
+ ![Modi](Tab_Modi.jpg)
+* Kommunikation von Sensorknoten
+ * Lösung: Zeitslots zum Empfangen und Senden von Daten
+
+---
 
 ## Aufgabe 4
 **Warum hängt die maximale Taktrate von der Eingangsspannung ab?**
 
 ## Aufgabe 5
 **Als Speicherelemente für eingebundene Systeme werden für nicht-flüchtigen Speicher EEPROM und Flash - Elemente benutzt. Nennen Sie Gemeinsamkeiten sowie Vor- und Nachteile der beiden Speichermedien.**
+
+EEPROM - Electrically Erasable Programmable Read Only Memory
+![Tabelle Speicher](Tab_Speicher.jpg)
+![Baum Speicher](Tab_Speicher_Baum.jpg)
+
+
+---
 
 ## Aufgabe 6
 **Die Zahl der Schreibvorgänge auf einem EEPROM/Flash ist beschränkt. Erklären Sie diesen Effekt und beschreiben Sie eine Möglichkeit seinen Einfluß auf die Lebensdauer zu reduzieren.**
@@ -77,7 +100,7 @@
 
 MMIO ist ein Verfahren zur Kommunikation einer Zentraleinheit mit Peripheriegeräten. Die I/O-Register von elektronischen Bauelementen, mit denen angeschlossene Hardware gesteuert wird, werden in den Hauptspeicher-Adressraum abgebildet. Der Zugriff auf die Bauelemente kann dann über übliche Speicherzugriffsroutinen geschehen. Es werden keine besonderen Befehle benötigt wie bei der Realisierung der Ein-/Ausgabe mittels I/O-Ports am Prozessor. Sind die Bauelemente in den Prozessor integriert (Mikrocontroller), ist Memory Mapped I/O der Regelfall. Das Gegenstück ist Port-Mapped I/O oder Isolated I/O – die Register der Bauelemente werden über eigene Portadressen in einem separaten I/O-Adressraum angesprochen.
 
- * Vorteil: Zugriff über Strukturen und Pointer aus einer Hochsprache wie C oder C++ vollständig auf die Hardware möglich, ohne Teile des Programms in Assembler bzw. Maschinensprache schreiben zu müssen.
+ * Vorteil: Zugriff über Strukturen und Pointer aus einer Hochsprache wie C oder C++ vollständig auf die Hardware möglich, ohne Teile des Programms in Assembler bzw. Maschinensprache schreiben zu müssen. Homogene Befehle und Adressierungsarten.
  * Nachteil: ein Teil des Adressraums dadurch belegt wird und nicht mehr für echten Hauptspeicher genutzt werden kann. Somit verkleinert sich die maximale nutzbare Speichergröße, was vor allem bei Prozessoren mit kleinen Adressräumen problematisch sein kann.
 
 Heute herrscht immer noch ein Nebeneinander von Memory- und Port-Mapped-Verfahren. Memory-Mapped-I/O ist zwar eine Vereinfachung für die Softwareentwicklung, jedoch problematisch in Bezug auf die Konstruktion – insbesondere bei einem modularen Aufbau der Systeme. Memory-Mapped-I/O wurde daher anfänglich im Wesentlichen bei Systemen mit festem Aufbau verwendet, etwa vielen 8-Bit-Rechnern und dem Commodore Amiga. Die bei Personal Computern dominierenden Intel-Prozessoren bieten zwar auch Port-Mapped I/O an, werden aber trotzdem immer mehr auch in Memory-Mapped-Umgebungen betrieben, um deren Vorteile auszunutzen, was dank der in der 64-Bit-Ära größer gewordenen Adressräume leichter umsetzbar ist.
