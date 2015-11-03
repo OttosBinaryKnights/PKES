@@ -29,10 +29,36 @@
  * Komponenten: Eingabe/Ausgabewerk; Speicherwerk mit gemeinsamen Speicher für Daten und Programme; CPU mit Rechenwerk und Steuerwerk
  * Rechen- und Steuerwerk tauschen Daten aus
  * Speicherwerk und CPU tauschen untereinander und mit E/A-Werk Daten aus
- * Problem: v. Neumann-Flaschenhals Verbindungssystem (Daten und Befehlsbus) wird zum Engpass zwischen Prozessor und Speicher 
+ * Problem: v. Neumann-Flaschenhals Verbindungssystem (Daten und Befehlsbus) wird zum Engpass zwischen Prozessor und Speicher
 
 ## Pflichtaufgabe A
 **Welche Merkmale unterscheiden RISC- und CISC-Rechner? Was war die Intention zu deren Entwicklung? Wo liegen Vor- und Nachteile? Wo ist der AtMega 2560 einzuordnen?**
+
+* RISC (Reduced Instruction Set Computer)
+ * weniger Instruktionen
+ * weniger Addressierungsarten
+ * Intention: eine Befehlsabarbeitung in jedem Takt
+ * Cons:
+   * Anzahl der Instruktionen wächst
+   * mehr Speicherplatz für Programme nötig
+   * benötigt größere Speicherbandbreite für den (Befehls-)Speicher
+  * Pros:
+   * Einfachheit
+   * höhete Taktraten
+   * Ausnutzung der Pipelinetechnik eher möglich
+   * Speicherbandbreite kan durch Cachingtechniken erhöht werden  
+
+* CISC (Complex Instruction Set Computer)
+ * weniger Register
+ * profitiert mehr von Caching
+ * Opcode unterschiedlicher länge
+ * Intention: komplexe Rechenschritte mit einem Maschienenbefehl ausführen
+ * Pros:
+   * Große Auswahl an Befehlen
+ * Cons:
+   * unterschiedliche Abarbeitungszeiten erschweren den Einsatz von Pipelining   
+
+---
 
 ## Aufgabe 3
 **Welche Parameter bestimmen die Energieaufnahme eines Mikrocontrollers zur Laufzeit?**
@@ -48,6 +74,7 @@
 
 ## Aufgabe 7
 **Erläutern Sie die die Idee des ”Memory-Mapped-IO“.**
+
 MMIO ist ein Verfahren zur Kommunikation einer Zentraleinheit mit Peripheriegeräten. Die I/O-Register von elektronischen Bauelementen, mit denen angeschlossene Hardware gesteuert wird, werden in den Hauptspeicher-Adressraum abgebildet. Der Zugriff auf die Bauelemente kann dann über übliche Speicherzugriffsroutinen geschehen. Es werden keine besonderen Befehle benötigt wie bei der Realisierung der Ein-/Ausgabe mittels I/O-Ports am Prozessor. Sind die Bauelemente in den Prozessor integriert (Mikrocontroller), ist Memory Mapped I/O der Regelfall. Das Gegenstück ist Port-Mapped I/O oder Isolated I/O – die Register der Bauelemente werden über eigene Portadressen in einem separaten I/O-Adressraum angesprochen.
 
  * Vorteil: Zugriff über Strukturen und Pointer aus einer Hochsprache wie C oder C++ vollständig auf die Hardware möglich, ohne Teile des Programms in Assembler bzw. Maschinensprache schreiben zu müssen.
