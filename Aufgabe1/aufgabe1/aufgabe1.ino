@@ -16,9 +16,12 @@
  * Latch PC4
  */
 #define CLOCK_DELAY_MS 1
+
 int x = 0;
+int dez = 0;
 boolean neg = false;
 
+//int ist in centi angegeben!
 void out(int o) {
   //Startbit
   PORTC |= _BV(PORTC3);
@@ -33,8 +36,20 @@ void out(int o) {
   }
   else neg = false;
 
+  //Verschiebe Komma.
+  if(t >= 10000){
+    t = t/100;
+    dez = 2;
+  }
+  else if(t >= 1000){ 
+    t = t/10;
+    dez = 1;
+  }
+  else{ 
+    dez = 0;
+  } 
+
   //Berechne die einzelnen Werte für Stellen 1-3
-  
   int d[3];
   for (int i = 2; i >= 0; i--) {
     d[i] = t % 10;
@@ -48,7 +63,10 @@ void out(int o) {
 
   for (int i = 0; i <= 2; i++) {
     //Gebe die Segmente der 3 Digits aus
-    ShiftDigit( d[i] );
+    if(i == dez)
+      {ShiftDigit( d[i], true);}
+    else
+      {ShiftDigit( d[i], false);}
   }
 
   //Unbelegte Bits werden durchgeschaltet
@@ -59,17 +77,19 @@ void out(int o) {
 
 //Erzeugt ein Clock-Cycle
 void Clock(void) {
-  _delay_ms(1);
+  _delay_ms(CLOCK_DELAY_MS);
   PORTC |= _BV(PORTC2);
-  _delay_ms(1);
+  _delay_ms(CLOCK_DELAY_MS);
   PORTC &= ~_BV(PORTC2);
-  _delay_ms(1);
+  _delay_ms(CLOCK_DELAY_MS);
 }
 
-void ShiftDigit(int in) {
+void ShiftDigit(int in, boolean dezpoint) {
   //Laufe durch die 8 Segmente des Digits und schalte entsprechend den Ausgang
   for (int i = 7; i >= 0; i--) {
     byte dig = GetDigit(in);
+    if (dezpoint == true) dig |= 1 ;
+    
     if (((dig >> i)  & 0x01) != 1)
       PORTC &= ~_BV(PORTC3);
     else
@@ -105,12 +125,15 @@ int main (void)
   DDRC |= _BV(DDC3);  //Data
   DDRC |= _BV(DDC4);  //LATCH
 
+  Serial.begin(57600);
+
   while (1) {
-    out(x-199);
+    out(x);
     _delay_ms(50);
-    
+    Serial.println("Test");
+    Serial.println(x);
     // Erhöhe Testausgabe o um 1
-    x = (x + 1) % 1199;
+    x = (x + 5) % 99900;
   }
 }
 
