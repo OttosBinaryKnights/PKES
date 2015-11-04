@@ -28,26 +28,30 @@ void out(int o) {
   Clock();
 
   int t = o;
-  
-  //Setzt Negativ flag, falls Wert negativ ist
-  if (o<0) {
-    neg = true;
-    t*=-1;
-  }
-  else neg = false;
 
-  //Verschiebe Komma.
-  if(t >= 10000){
-    t = t/100;
+  //Setzt Negativ flag, falls Wert negativ ist
+  if (o < 0) {
+    neg = true;
+    t *= -0.01;
     dez = 2;
   }
-  else if(t >= 1000){ 
-    t = t/10;
-    dez = 1;
+  else
+  {
+    neg = false;
+
+    //Verschiebe Komma.
+    if (t >= 10000) {
+      t = t / 100;
+      dez = 2;
+    }
+    else if (t >= 1000) {
+      t = t / 10;
+      dez = 1;
+    }
+    else {
+      dez = 0;
+    }
   }
-  else{ 
-    dez = 0;
-  } 
 
   //Berechne die einzelnen Werte für Stellen 1-3
   int d[3];
@@ -56,17 +60,21 @@ void out(int o) {
     t = t / 10;
   }
 
-  if(neg == true){
-    if(d[0] == 1) d[0]=-1;
-    else d[0]=-10;
+  if (neg == true) {
+    if (d[0] == 1) d[0] = -1;
+    else d[0] = -10;
   }
 
   for (int i = 0; i <= 2; i++) {
     //Gebe die Segmente der 3 Digits aus
-    if(i == dez)
-      {ShiftDigit( d[i], true);}
+    if (i == dez)
+    {
+      ShiftDigit( d[i], true);
+    }
     else
-      {ShiftDigit( d[i], false);}
+    {
+      ShiftDigit( d[i], false);
+    }
   }
 
   //Unbelegte Bits werden durchgeschaltet
@@ -89,7 +97,8 @@ void ShiftDigit(int in, boolean dezpoint) {
   for (int i = 7; i >= 0; i--) {
     byte dig = GetDigit(in);
     if (dezpoint == true) dig |= 1 ;
-    
+    //if (negpoint == true) dig |= 1 << 1 ;
+
     if (((dig >> i)  & 0x01) != 1)
       PORTC &= ~_BV(PORTC3);
     else
@@ -126,14 +135,40 @@ int main (void)
   DDRC |= _BV(DDC4);  //LATCH
 
   Serial.begin(57600);
-
+  _delay_ms(1000);
+  Serial.println("Binary Knights - Aufgabe 1 v01");
+  _delay_ms(1000);
   while (1) {
-    out(x);
-    _delay_ms(50);
-    Serial.println("Test");
-    Serial.println(x);
-    // Erhöhe Testausgabe o um 1
-    x = (x + 5) % 99900;
+    Serial.println("STARTE TEST");
+    Serial.println("Teste 0.00 bis 10.0");
+    _delay_ms(1000);
+    for (int x = 0; x <= 1000; x = x + 5)
+    {
+      out(x);
+      _delay_ms(10);
+      //Serial.println(x);
+    }
+
+    Serial.println("10 erreicht. Zaehle bis - 199");
+    _delay_ms(1000);
+    for (int x = 1000; x >= -19900; x = x - 100)
+    {
+      out(x);
+      _delay_ms(20);
+      //Serial.println(x);
+    }
+
+    Serial.println("-199 erreicht. Zaehle bis - 199");
+    _delay_ms(1000);
+    for (int x = -19900; x <= 99900; x = x + 100)
+    {
+      out(x);
+      _delay_ms(20);
+      //Serial.println(x);
+    }
+
+    Serial.println("Test fertig. Restart in 10 Sekunden ...");
+    _delay_ms(10000);
   }
 }
 
