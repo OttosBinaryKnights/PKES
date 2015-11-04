@@ -39,7 +39,6 @@
  * weniger Instruktionen
  * elementare Befehle
  * Umsetzung im Steuerwerk fest verdrahtet
- * Preiswert in der Herstellung
  * weniger Addressierungsarten
  * Intention: eine Befehlsabarbeitung in jedem Takt
  * Cons:
@@ -47,10 +46,11 @@
    * mehr Speicherplatz für Programme nötig
    * benötigt größere Speicherbandbreite für den (Befehls-)Speicher
   * Pros:
-   * Einfachheit
+   * Einfachheit ??
+   * Preiswerte Herstellung
    * höhete Taktraten
-   * Ausnutzung der Pipelinetechnik eher möglich
-   * Speicherbandbreite kan durch Cachingtechniken erhöht werden  
+   * Geschwindigkeitsgewinn durch Pipelining & wenige Speicherzugriffe
+   * Speicherbandbreite kann durch Cachingtechniken erhöht werden  
 
 * CISC (Complex Instruction Set Computer)
  * weniger Register
