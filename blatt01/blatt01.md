@@ -8,21 +8,63 @@
 
  **Können alle 3 Systeme als eingebette bezeichnet werden? Stellen Sie dazu Eigenschaften, Komponenten und Anforderungen gegenüber.**
 
+#### Mobiler Serviceroboter
+
+Eigenschaften;
+ * Service
+ * Interaktionsfähigkeit mit Menschen
+ * mobil
+ * lange Akkulaufzeit
+ * Sicherheit
+
+Komponenten:
+ * Akku
+ * diverse Sensoren & Aktoren (abhängig von Aufgabengebiet)
+
+Anforderungen:
+ * Echtzeit, (Intelligenz), speziefischer Einsatzzweck
+
+**Eingebettes System?**  Ja, Mobil & Robotik
+
+#### Fahrkartenautomat
+Eigenschaften;
+* fest stehend,
+
+Komponenten:
+ * Wechselgeld, Auswahl, Münzenerkennung, Scheinerkennung
+
+Anforderungen:
+ * Wechselgeld ausgeben,
+ * Fahrkartenpreis berechnen
+
+**Eingebettes System?**  Ja
+
+#### Automatischer Türöffner
+Eigenschaften;
+Komponenten:
+ * Bewegungssensoren, Timer, Mechanik zur Bewegung, Handschaltung
+
+Anforderungen:
+ * Tür öffnen, wenn jemand im Sensor steht, Tür bestimmte Zeit offen halten, Tür im Schließvorgang wieder öffnen, wenn  der Sensor Bewegung registriert
+
+**Eingebettes System?**  Ja?
+
+
 ---
 
 ## Aufgabe 2
 **Was beschreibt die Von-Neumann Architektur und wie unterscheidet sie sich von der Harvard-Architektur?**
-* Harvard:        
- * je ein Befehls- und Datenbus
+#### Harvard:        
+ * getrennter Befehls- und Datenbus
    * Befehle und Daten in getrennten Speichern
  * schneller gleichzeitiger Zugriff auf Code und Daten
- * kommt hauptsächlich in Signalprozessoren und Mikrocontrollern zum Einsatz
- * Komponenten: E/A-Werk; Speicherwerk mit getrennten Speichern für Daten u. Programme; CPU bestehend aus Rechenwerk und Steuerwerk; Datenbus und Befehlsbus.
- * Im CPU kommunizieren Rechen- und Steuerwerk; sonst DS und Rechenwerk über Datenbus und Programmspeicher (CS) mit Steuerwerk über Befehlsbus.
- * Vorteile: Befehle und Daten können gleichzeitig geladen werden – schnell; Trennung von DS und CS sorgt dafür dass bei fehlerhafter Software kein Programmcode überschrieben werden kann
- * Nachteile: Freier Programmspeicher kann nicht für Daten genutzt werden oder umgedreht; selbst-modifizierender Code durch Trennung nicht möglich
 
-* Neumann:
+* **Vorteile:**
+ * Befehle und Daten können gleichzeitig geladen werden – schnell; Trennung von DS und CS sorgt dafür dass bei fehlerhafter Software kein Programmcode überschrieben werden kann
+* **Nachteile:**
+  * Freier Programmspeicher kann nicht für Daten genutzt werden oder umgedreht; selbst-modifizierender Code durch Trennung nicht möglich
+
+### Neumann:
  * nur ein Bus für Befehle und Daten
    * Befehle und Daten in gemeinsamen Speicher „Architektur des minimalen Hardware-Aufwands“ / „Prinzip des minimalen Speicheraufwands“
  * flexible Aufteilung des Speichers zwischen Code und Daten
@@ -66,13 +108,16 @@
  * Cons:
    * unterschiedliche Abarbeitungszeiten erschweren den Einsatz von Pipelining   
 
-AtMega = CISC
+AtMega = RISC
 
 ---
-
 ## Aufgabe 3
 **Welche Parameter bestimmen die Energieaufnahme eines Mikrocontrollers zur Laufzeit?**
-* Wahl des Betriebsmodis:
+* Frequenz
+* Spannung
+* Pheripherie an/ausschalten
+* externe Kombonenten
+* Wahl des Betriebsmodis & Komponenten:
  * Aktive Clocks
  * Oszillatoren
  * Wake-UpGeräte
@@ -85,6 +130,11 @@ AtMega = CISC
 ## Aufgabe 4
 **Warum hängt die maximale Taktrate von der Eingangsspannung ab?**
 
+sh. Grafik Save operating Area.
+* Transistoren schalten langsamer bei geringerer Spannung -> reduzierte Taktrate um Fehler zu verhindern
+
+Flanken werden steiler & weniger Rauschen!
+
 ---
 
 ## Aufgabe 5
@@ -94,23 +144,68 @@ EEPROM - Electrically Erasable Programmable Read Only Memory
 ![Tabelle Speicher](Tab_Speicher.jpg)
 ![Baum Speicher](Tab_Speicher_Baum.jpg)
 
+**Gemeinsamkeiten:**
+  + nichtflüchtiger Speicher
+  + begrenzte Schreibzugriffe
+
+**EEPROM:**
+  + jedes einzelne Byte kann umprogrammiert werden
+  + mehr Schreibzugriffe als FLASH
+
+**FLASH:**
+  + umprogrammierung in Blöcken
+
 
 ---
 
 ## Aufgabe 6
 **Die Zahl der Schreibvorgänge auf einem EEPROM/Flash ist beschränkt. Erklären Sie diesen Effekt und beschreiben Sie eine Möglichkeit seinen Einfluß auf die Lebensdauer zu reduzieren.**
 
+In der Oxidschicht des Gates der in EEPROMs eingesetzten Floating-Gate-Transistoren sammeln sich eingefangene Elektronen an. Das elektrische Feld der eingefangenen Elektronen summiert sich zu dem Feld des Floating Gates und schmälert so das Fenster zwischen den Schwellenspannungen, die für die Speicherzustände Eins bzw. Null stehen. Nach einer bestimmten Anzahl von Schreibvorgängen wird die Differenz zu klein, um unterscheidbar zu bleiben, und die Speicherstelle bleibt dauerhaft auf dem programmierten Wert stehen. Hersteller geben üblicherweise die maximale Anzahl von Schreibvorgängen mit $10 hoch 6$ oder mehr an.
+
+**Effekt 2:**
+Die während der Speicherung in das Floating Gate eingebrachten Elektronen können durch die Isolierschicht lecken, dies vor allem bei erhöhten Temperaturen (z.B. 170...180°C), dadurch einen Verlust des Ladungszustands verursachen und die Speicherstelle so in den gelöschten Zustand zurückversetzen. Hersteller gewährleisten üblicherweise die Beständigkeit gespeicherter Daten für einen Zeitraum von 10 Jahren
+
+AUSM PAD:
+Schreibvorgänge sind beschränkt, denn
+Floating Gate wird mit Spannung (10-18 Volt) geladen beim Schreibzugriff -> Überwindung der Isolation (Oxidschicht) -> schadet der Oxidschicht
+irgendwann ist der Schaden so groß, dass die Oxidschicht nicht mehr isoliert
+Problem: in einem Speichervorgang werden 16- 128 kByte große Blöcke (Eraseable Blocks) angesprochen
+-> auch Speicherzellen ohne Veränderung werden angesprochen
+-> geringe Änderungen = viele Speicherzellen neu beschreiben
+Wear Levelling
+( no wear levelling)
+Flash Controller muss permanent die logische Adresse vom OS der physikalischen Adresse des Speichers zuordnen
+jedes Schreiben auf einem bereits beschriebenen Block: lesen, löschen, modifizieren, neu beschreiben
+-> kostet sehr viel Zeit und senkt Lebensdauer sehr stark
+Änderung in einem Block -> nicht neu schreiben, nur als nicht mehr aktuell markieren
+Schreiben im nächsten freien Block des Eraseableblocks, bis dieser voll ist
+Komplette Löschung, wenn alle Einträge nicht mehr aktuell sind
+-> Write Amplification, denn doppelte Daten, einmal die ohne Änderung und die mit Änderung
+
+Dynamic Wear Levelling
+Beschreiben eines Blocks -> Nutzung des am wenigsten abgenutzten
+Static Wear Levelling
+Beschreiben eines Blocks -> Nutzung des am wenigsten abgenutzten, aber wenn dieser schon belegt, Umlagerung seiner Daten auf einen anderen und dann Schreiben --> sehr gleichmäßige Abnutzung
+Defekte Blöcke
+Behscrieben eines Blocks -> scheitert, als nicht mehr nutzbar markiert, Reserveblock aktiviert
+
 ---
 
 ## Aufgabe 7
 **Erläutern Sie die die Idee des ”Memory-Mapped-IO“.**
 
-MMIO ist ein Verfahren zur Kommunikation einer Zentraleinheit mit Peripheriegeräten. Die I/O-Register von elektronischen Bauelementen, mit denen angeschlossene Hardware gesteuert wird, werden in den Hauptspeicher-Adressraum abgebildet. Der Zugriff auf die Bauelemente kann dann über übliche Speicherzugriffsroutinen geschehen. Es werden keine besonderen Befehle benötigt wie bei der Realisierung der Ein-/Ausgabe mittels I/O-Ports am Prozessor. Sind die Bauelemente in den Prozessor integriert (Mikrocontroller), ist Memory Mapped I/O der Regelfall. Das Gegenstück ist Port-Mapped I/O oder Isolated I/O – die Register der Bauelemente werden über eigene Portadressen in einem separaten I/O-Adressraum angesprochen.
+"Bei der Memory-Mapped I/O-Methode4 (auch oft als speicherbezogene Adressierung bezeichnet) befindet sich der I/O-Bereich im Arbeitsspeicher. Für den Speicher und den I/O-Bereich wird der gemeinsame Adreßraum verwendet.."
 
- * Vorteil: Zugriff über Strukturen und Pointer aus einer Hochsprache wie C oder C++ vollständig auf die Hardware möglich, ohne Teile des Programms in Assembler bzw. Maschinensprache schreiben zu müssen. Homogene Befehle und Adressierungsarten.
- * Nachteil: ein Teil des Adressraums dadurch belegt wird und nicht mehr für echten Hauptspeicher genutzt werden kann. Somit verkleinert sich die maximale nutzbare Speichergröße, was vor allem bei Prozessoren mit kleinen Adressräumen problematisch sein kann.
+http://www.bjoern-koester.de/iogrundlagen/index.html
 
-Heute herrscht immer noch ein Nebeneinander von Memory- und Port-Mapped-Verfahren. Memory-Mapped-I/O ist zwar eine Vereinfachung für die Softwareentwicklung, jedoch problematisch in Bezug auf die Konstruktion – insbesondere bei einem modularen Aufbau der Systeme. Memory-Mapped-I/O wurde daher anfänglich im Wesentlichen bei Systemen mit festem Aufbau verwendet, etwa vielen 8-Bit-Rechnern und dem Commodore Amiga. Die bei Personal Computern dominierenden Intel-Prozessoren bieten zwar auch Port-Mapped I/O an, werden aber trotzdem immer mehr auch in Memory-Mapped-Umgebungen betrieben, um deren Vorteile auszunutzen, was dank der in der 64-Bit-Ära größer gewordenen Adressräume leichter umsetzbar ist.
+![](http://www.bjoern-koester.de/iogrundlagen/img6.gif)
+
+Vorteil:
+ * aus Sicht des Programmierers wird nicht unterschieden, ob auf eine reale Stelle im Arbeitsspeicher oder auf einen I/O-Port zugegriffen wird
+
+Nachteil:
+ * nicht voller Adressraum und Speicherraum nutzbar
 
 ---
 
