@@ -203,10 +203,10 @@ int main( void )
   while( 1 ) {
     adcval = ADC_Read(0);  // Kanal 0
     // mach was mit adcval
-    Serial.print(adcval);
-    Serial.println("= adcval");
+    Serial.println(adcval);
+    //Serial.println("= adcval");
     out(adcval);
-    _delay_ms(1000);
+    //_delay_ms(1000);
     //adcval = ADC_Read_Avg(2, 4);  // Kanal 2, Mittelwert aus 4 Messungen
     // mach was mit adcval
   }
