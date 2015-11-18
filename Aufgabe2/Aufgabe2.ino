@@ -130,66 +130,85 @@ byte GetDigit(int in) {
   }
 }
 
-int main (void)
+// Diese Beispiel zeigt die Anwendung des ADC eines ATmega169
+// unter Verwendung der internen Referenzspannung von nominell 1,1V.
+// Zur Anpassung an andere AVR und/oder andere Referenzspannungen
+// siehe Erläuterungen in diesem Tutorial und im Datenblatt
+ 
+/* ADC initialisieren */
+void ADC_Init(void)
 {
-  /* set die drei Steuerleitungen als Output (in einem Befehl auch möglich?!)*/
+  // die Versorgungsspannung AVcc als Referenz wählen:
+  ADMUX = (1<<REFS0);    
+  // oder interne Referenzspannung als Referenz für den ADC wählen:
+  // ADMUX = (1<<REFS1) | (1<<REFS0);
+ 
+  // Bit ADFR ("free running") in ADCSRA steht beim Einschalten
+  // schon auf 0, also single conversion
+  ADCSRA = (1<<ADPS1) | (1<<ADPS0);     // Frequenzvorteiler
+  ADCSRA |= (1<<ADEN);                  // ADC aktivieren
+ 
+  /* nach Aktivieren des ADC wird ein "Dummy-Readout" empfohlen, man liest
+     also einen Wert und verwirft diesen, um den ADC "warmlaufen zu lassen" */
+ 
+  ADCSRA |= (1<<ADSC);                  // eine ADC-Wandlung 
+  while (ADCSRA & (1<<ADSC) ) {         // auf Abschluss der Konvertierung warten
+  }
+  /* ADCW muss einmal gelesen werden, sonst wird Ergebnis der nächsten
+     Wandlung nicht übernommen. */
+  (void) ADCW;
+}
+ 
+/* ADC Einzelmessung */
+uint16_t ADC_Read( uint8_t channel )
+{
+  // Kanal waehlen, ohne andere Bits zu beeinflußen
+  ADMUX = (ADMUX & ~(0x1F)) | (channel & 0x1F);
+  ADCSRA |= (1<<ADSC);            // eine Wandlung "single conversion"
+  while (ADCSRA & (1<<ADSC) ) {   // auf Abschluss der Konvertierung warten
+  }
+  return ADCW;                    // ADC auslesen und zurückgeben
+}
+ 
+/* ADC Mehrfachmessung mit Mittelwertbbildung */
+/* beachte: Wertebereich der Summenvariablen */
+uint16_t ADC_Read_Avg( uint8_t channel, uint8_t nsamples )
+{
+  uint32_t sum = 0;
+ 
+  for (uint8_t i = 0; i < nsamples; ++i ) {
+    sum += ADC_Read( channel );
+  }
+ 
+  return (uint16_t)( sum / nsamples );
+}
+ 
+
+int main( void )
+{
+  uint16_t adcval;
+  float val;
+
+    /* set die drei Steuerleitungen als Output (in einem Befehl auch möglich?!)*/
   DDRC |= _BV(DDC2);  //CLK
   DDRC |= _BV(DDC3);  //Data
   DDRC |= _BV(DDC4);  //LATCH
-
   
-//1. Set the MUX bit fields (MUX3:0) in ADC’s MUX register (ADMUX) equal to 0000 to select ADC Channel 0.
-  //ADMUX &= 0b11110000;  //Kein Befehl eigentlich nötig ADC 0 standardmäßig selektiert
+  ADC_Init();
   
-//2. Set the ADC Enable bit (ADEN) in ADC Control and Status Register A (ADCSRA) to enable the ADC module.
-  ADCSRA |= _BV(ADEN);
-  
-//3. Set the ADC Pre-scalar bit fields (ADPS2:0) in ADCSRA equal to 100 to prescale the system clock by 16.
-  ADPS |= 0b00000100;
-  
-//4. Set the Voltage Reference bit fields (REFS1:0) in ADMUX equal to 11 to select Internal 1.1V reference.
-  //ADMUX |= (1 << REFS0); Ist schon 00
-  
-//5. Set the Start Conversion bit (ADSC) in ADCSRA to start a single conversion.
-//6. Poll (wait) for the Interrupt Flag (ADIF) bit in the ADCSRA register to be set, indicating that a new conversion is completed.
-//7. Once the conversion is over (ADIF bit becomes high) then read the ADC data
-//register pair (ADCL/ADCH) to get the 10-bit ADC result value.
-
   Serial.begin(57600);
   _delay_ms(1000);
-  Serial.println("Binary Knights - Aufgabe 1 v01");
-  _delay_ms(1000);
-  while (1) {
-    Serial.println("STARTE TEST");
-    Serial.println("Teste 0.00 bis 10.0");
+  Serial.println("ADC Test");
+  
+  while( 1 ) {
+    adcval = ADC_Read(0);  // Kanal 0
+    // mach was mit adcval
+    Serial.print(adcval);
+    Serial.println("= adcval");
+    out(adcval);
     _delay_ms(1000);
-    for (int x = 0; x <= 1000; x = x + 5)
-    {
-      out(x);
-      _delay_ms(10);
-      //Serial.println(x);
-    }
-
-    Serial.println("10 erreicht. Zaehle bis - 199");
-    _delay_ms(1000);
-    for (int x = 1000; x >= -19900; x = x - 100)
-    {
-      out(x);
-      _delay_ms(20);
-      //Serial.println(x);
-    }
-
-    Serial.println("-199 erreicht. Zaehle bis - 199");
-    _delay_ms(1000);
-    for (int x = -19900; x <= 99900; x = x + 100)
-    {
-      out(x);
-      _delay_ms(20);
-      //Serial.println(x);
-    }
-
-    Serial.println("Test fertig. Restart in 10 Sekunden ...");
-    _delay_ms(10000);
+    //adcval = ADC_Read_Avg(2, 4);  // Kanal 2, Mittelwert aus 4 Messungen
+    // mach was mit adcval
   }
 }
 
