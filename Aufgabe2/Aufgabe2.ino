@@ -28,6 +28,8 @@
 int x = 0;
 int dez = 0;
 boolean neg = false;
+double xangle=0;
+double yangle=0;
 
 //int ist in centi angegeben!
 void out(int o) {
@@ -187,12 +189,20 @@ uint16_t ADC_Read_Avg( uint8_t channel, uint8_t nsamples )
  
   return (uint16_t)( sum / nsamples );
 }
+
  
 void imuTest() {  double dT = ( (double) MPU9150_readSensor(MPU9150_TEMP_OUT_L,MPU9150_TEMP_OUT_H) + 12412.0) / 340.0;
   double dx = MPU9150_readSensor(MPU9150_ACCEL_XOUT_L,MPU9150_ACCEL_XOUT_H);
   double dy = MPU9150_readSensor(MPU9150_ACCEL_YOUT_L,MPU9150_ACCEL_YOUT_H);
   double dz = MPU9150_readSensor(MPU9150_ACCEL_ZOUT_L,MPU9150_ACCEL_ZOUT_H);
-  
+
+   yangle = atan(dy/sqrt(dx*dx+dz*dz))*57.3;
+   xangle = atan(dx/sqrt(dx*dx+dz*dz))*57.3;
+
+  /*Serial.print("x-Angle: ");
+  Serial.print(xangle);
+  Serial.print("  y-Angle: ");
+  Serial.println(yangle);*/
   _delay_ms(100);
 }
 
@@ -260,6 +270,10 @@ void loop()
 
        case 2:
           imuTest();
+          Serial.print("x-Angle: ");
+          Serial.print(xangle);
+          Serial.print("  y-Angle: ");
+          Serial.println(yangle);
        break;
     }
 }
