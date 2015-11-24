@@ -248,18 +248,15 @@ int main( void )
             valSUM += adcval;
           }
         valSUM = valSUM / 250;
-        // mach was mit adcval
+        
+        // Ausgabe des Messwerts
         Serial.println(valSUM);
-        //Serial.println("= adcval");
     
         // Umrechnung durchgeführ für GP2D12047
         //−95×LN((schwarze Oberfläche '406,480814729724'−42,5)÷5)+445
         distance = -95 * log((valSUM - 42.5)/5)+445;
         distance *= 10;
-        out(distance);
-        //_delay_ms(1000);
-        //adcval = ADC_Read_Avg(2, 4);  // Kanal 2, Mittelwert aus 4 Messungen
-        // mach was mit adcval
+        out(distance);  //Ausgabe ans Display
        break;
 
        case 2:
