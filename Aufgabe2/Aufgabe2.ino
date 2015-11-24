@@ -215,6 +215,8 @@ int main( void )
   uint16_t adcval;
   uint32_t valSUM;
   int distance;
+  int mode = 1;
+  
   //float val;
 
     /* set die drei Steuerleitungen als Output (in einem Befehl auch möglich?!)*/
@@ -225,38 +227,45 @@ int main( void )
   ADC_Init();
   
   Serial.begin(57600);
+  Wire.begin();
+  
   _delay_ms(1000);
   Serial.println("ADC Test");
 
-  Wire.begin();
 
   // Clear the 'sleep' bit to start the sensor.
-  MPU9150_writeSensor(MPU9150_PWR_MGMT_1, 0);
+  //MPU9150_writeSensor(MPU9150_PWR_MGMT_1, 0);
 
-  MPU9150_setupCompass();  
+  //MPU9150_setupCompass();  
   
   while( 1 ) {
-    valSUM = 0;
-    for(int i=0; i<250; i++)
-    {
-      adcval = ADC_Read(0);  // Kanal 0
-      valSUM += adcval;
-    }
-    valSUM = valSUM / 250;
-    // mach was mit adcval
-    Serial.println(valSUM);
-    //Serial.println("= adcval");
+    switch (mode){
+      case 1:    
+        valSUM = 0;
+        for(int i=0; i<250; i++)
+          { 
+            adcval = ADC_Read(0);  // Kanal 0
+            valSUM += adcval;
+          }
+        valSUM = valSUM / 250;
+        // mach was mit adcval
+        Serial.println(valSUM);
+        //Serial.println("= adcval");
     
-    // Umrechnung durchgeführ für GP2D12047
-    //−95×LN((schwarze Oberfläche '406,480814729724'−42,5)÷5)+445
-    distance = -95 * log((valSUM - 42.5)/5)+445;
-    distance *= 10;
-    out(distance);
-    //_delay_ms(1000);
-    //adcval = ADC_Read_Avg(2, 4);  // Kanal 2, Mittelwert aus 4 Messungen
-    // mach was mit adcval
+        // Umrechnung durchgeführ für GP2D12047
+        //−95×LN((schwarze Oberfläche '406,480814729724'−42,5)÷5)+445
+        distance = -95 * log((valSUM - 42.5)/5)+445;
+        distance *= 10;
+        out(distance);
+        //_delay_ms(1000);
+        //adcval = ADC_Read_Avg(2, 4);  // Kanal 2, Mittelwert aus 4 Messungen
+        // mach was mit adcval
+       break;
 
-    imuTest();
+       case 2:
+          imuTest();
+       break;
+    }
   }
 
   
