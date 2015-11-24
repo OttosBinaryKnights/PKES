@@ -1,3 +1,5 @@
+#include <imu.h>
+
 
 /*
  * Praktische Aufgabe 2:
@@ -11,10 +13,10 @@
  * Bei der Inertialsensorik soll zunächst nur der gemessene Beschleunigungswert in eine Orientierung (Winkellage gegenüber dem Horizont) übersetzt werden. Dies soll genutzt werden um eine einfache Wasserwage zu implementieren... Einfache trigonometrische Funktionen sind hier von Vorteil :-)
  */
 
+
 #include <avr/io.h>
 #include <util/delay.h>
 #include <Wire.h>
-#include <imu.h>
 
 /*
  * Clock PC2
@@ -187,35 +189,25 @@ uint16_t ADC_Read_Avg( uint8_t channel, uint8_t nsamples )
 }
  
 void imuTest() {  double dT = ( (double) MPU9150_readSensor(MPU9150_TEMP_OUT_L,MPU9150_TEMP_OUT_H) + 12412.0) / 340.0;
-  Serial.print(dT);
-  Serial.print("  ");
-  Serial.print(MPU9150_readSensor(MPU9150_CMPS_XOUT_L,MPU9150_CMPS_XOUT_H));
-  Serial.print("  ");
-  Serial.print(MPU9150_readSensor(MPU9150_CMPS_YOUT_L,MPU9150_CMPS_YOUT_H));
-  Serial.print("  ");
-  Serial.print(MPU9150_readSensor(MPU9150_CMPS_ZOUT_L,MPU9150_CMPS_ZOUT_H));
-  Serial.print("  ");
-  Serial.print(MPU9150_readSensor(MPU9150_GYRO_XOUT_L,MPU9150_GYRO_XOUT_H));
-  Serial.print("  ");
-  Serial.print(MPU9150_readSensor(MPU9150_GYRO_YOUT_L,MPU9150_GYRO_YOUT_H));
-  Serial.print("  ");
-  Serial.print(MPU9150_readSensor(MPU9150_GYRO_ZOUT_L,MPU9150_GYRO_ZOUT_H));
-  Serial.print("  ");
-  Serial.print(MPU9150_readSensor(MPU9150_ACCEL_XOUT_L,MPU9150_ACCEL_XOUT_H));
-  Serial.print("  ");
-  Serial.print(MPU9150_readSensor(MPU9150_ACCEL_YOUT_L,MPU9150_ACCEL_YOUT_H));
-  Serial.print("  ");
-  Serial.print(MPU9150_readSensor(MPU9150_ACCEL_ZOUT_L,MPU9150_ACCEL_ZOUT_H));
-  Serial.println();
-  delay(100);
+  double dx = MPU9150_readSensor(MPU9150_ACCEL_XOUT_L,MPU9150_ACCEL_XOUT_H);
+  double dy = MPU9150_readSensor(MPU9150_ACCEL_YOUT_L,MPU9150_ACCEL_YOUT_H);
+  double dz = MPU9150_readSensor(MPU9150_ACCEL_ZOUT_L,MPU9150_ACCEL_ZOUT_H);
+  
+  _delay_ms(100);
 }
 
-int main( void )
-{
-  uint16_t adcval;
+void waitms(double timer){
+  double newtimer;
+  newtimer= millis() + newtimer;
+  while(millis()<newtimer);
+}
+uint16_t adcval;
   uint32_t valSUM;
   int distance;
-  int mode = 1;
+  int mode = 2;
+  
+void setup(){
+  
   
   //float val;
 
@@ -227,19 +219,26 @@ int main( void )
   ADC_Init();
   
   Serial.begin(57600);
-  Wire.begin();
-  
-  _delay_ms(1000);
+  _delay_ms(500);
   Serial.println("ADC Test");
+  Serial.println("Begin Wire");
+
+  Wire.begin();
 
 
   // Clear the 'sleep' bit to start the sensor.
-  //MPU9150_writeSensor(MPU9150_PWR_MGMT_1, 0);
+  Serial.println("Clear the 'sleep' bit to start the sensor.");
+  MPU9150_writeSensor(MPU9150_PWR_MGMT_1, 0);
 
-  //MPU9150_setupCompass();  
-  
-  while( 1 ) {
-    switch (mode){
+  Serial.println("Setup compass");
+  MPU9150_setupCompass(); 
+
+  Serial.println("Setup COMPLETE");
+}
+
+void loop()
+{
+   switch (mode){
       case 1:    
         valSUM = 0;
         for(int i=0; i<250; i++)
@@ -263,9 +262,6 @@ int main( void )
           imuTest();
        break;
     }
-  }
-
-  
 }
 
 
