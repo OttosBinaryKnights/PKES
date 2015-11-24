@@ -31,7 +31,6 @@ boolean neg = false;
 double xangle=0;
 double yangle=0;
 
-//int ist in centi angegeben!
 void out(int o) {
   //Startbit
   PORTC |= _BV(PORTC3);
@@ -137,21 +136,15 @@ byte GetDigit(int in) {
   }
 }
 
-// Diese Beispiel zeigt die Anwendung des ADC eines ATmega169
-// unter Verwendung der internen Referenzspannung von nominell 1,1V.
-// Zur Anpassung an andere AVR und/oder andere Referenzspannungen
-// siehe Erläuterungen in diesem Tutorial und im Datenblatt
  
 /* ADC initialisieren */
 void ADC_Init(void)
 {
-  // die Versorgungsspannung AVcc als Referenz wählen:
+  // Versorgungsspannung als Referenz
   ADMUX = (1<<REFS0);    
-  // oder interne Referenzspannung als Referenz für den ADC wählen:
+  // interne Referenz
   // ADMUX = (1<<REFS1) | (1<<REFS0);
- 
-  // Bit ADFR ("free running") in ADCSRA steht beim Einschalten
-  // schon auf 0, also single conversion
+
   ADCSRA = (1<<ADPS1) | (1<<ADPS0);     // Frequenzvorteiler
   ADCSRA |= (1<<ADEN);                  // ADC aktivieren
  
@@ -161,12 +154,9 @@ void ADC_Init(void)
   ADCSRA |= (1<<ADSC);                  // eine ADC-Wandlung 
   while (ADCSRA & (1<<ADSC) ) {         // auf Abschluss der Konvertierung warten
   }
-  /* ADCW muss einmal gelesen werden, sonst wird Ergebnis der nächsten
-     Wandlung nicht übernommen. */
   (void) ADCW;
 }
  
-/* ADC Einzelmessung */
 uint16_t ADC_Read( uint8_t channel )
 {
   // Kanal waehlen, ohne andere Bits zu beeinflußen
@@ -177,20 +167,6 @@ uint16_t ADC_Read( uint8_t channel )
   return ADCW;                    // ADC auslesen und zurückgeben
 }
  
-/* ADC Mehrfachmessung mit Mittelwertbbildung */
-/* beachte: Wertebereich der Summenvariablen */
-uint16_t ADC_Read_Avg( uint8_t channel, uint8_t nsamples )
-{
-  uint32_t sum = 0;
- 
-  for (uint8_t i = 0; i < nsamples; ++i ) {
-    sum += ADC_Read( channel );
-  }
- 
-  return (uint16_t)( sum / nsamples );
-}
-
- 
 void imuTest() {  double dT = ( (double) MPU9150_readSensor(MPU9150_TEMP_OUT_L,MPU9150_TEMP_OUT_H) + 12412.0) / 340.0;
   double dx = MPU9150_readSensor(MPU9150_ACCEL_XOUT_L,MPU9150_ACCEL_XOUT_H);
   double dy = MPU9150_readSensor(MPU9150_ACCEL_YOUT_L,MPU9150_ACCEL_YOUT_H);
@@ -199,10 +175,6 @@ void imuTest() {  double dT = ( (double) MPU9150_readSensor(MPU9150_TEMP_OUT_L,M
    yangle = atan(dy/sqrt(dx*dx+dz*dz))*57.3;
    xangle = atan(dx/sqrt(dx*dx+dz*dz))*57.3;
 
-  /*Serial.print("x-Angle: ");
-  Serial.print(xangle);
-  Serial.print("  y-Angle: ");
-  Serial.println(yangle);*/
   _delay_ms(100);
 }
 
@@ -274,6 +246,7 @@ void loop()
           Serial.print(xangle);
           Serial.print("  y-Angle: ");
           Serial.println(yangle);
+          WaageOut();
        break;
     }
 }
