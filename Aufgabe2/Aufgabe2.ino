@@ -11,7 +11,6 @@
  */
 
 #include <avr/io.h>
-//#include <util/math.h>
 #include <util/delay.h>
 
 /*
@@ -214,10 +213,11 @@ int main( void )
     // mach was mit adcval
     Serial.println(valSUM);
     //Serial.println("= adcval");
-
+    
+    // Umrechnung durchgeführ für GP2D12047
     //−95×LN((schwarze Oberfläche '406,480814729724'−42,5)÷5)+445
     distance = -95 * log((valSUM - 42.5)/5)+445;
-    distance *= 100;
+    distance *= 10;
     out(distance);
     //_delay_ms(1000);
     //adcval = ADC_Read_Avg(2, 4);  // Kanal 2, Mittelwert aus 4 Messungen
