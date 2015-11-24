@@ -11,6 +11,7 @@
  */
 
 #include <avr/io.h>
+//#include <util/math.h>
 #include <util/delay.h>
 
 /*
@@ -187,7 +188,9 @@ uint16_t ADC_Read_Avg( uint8_t channel, uint8_t nsamples )
 int main( void )
 {
   uint16_t adcval;
-  float val;
+  uint32_t valSUM;
+  int distance;
+  //float val;
 
     /* set die drei Steuerleitungen als Output (in einem Befehl auch möglich?!)*/
   DDRC |= _BV(DDC2);  //CLK
@@ -201,11 +204,21 @@ int main( void )
   Serial.println("ADC Test");
   
   while( 1 ) {
-    adcval = ADC_Read(0);  // Kanal 0
+    valSUM = 0;
+    for(int i=0; i<250; i++)
+    {
+      adcval = ADC_Read(0);  // Kanal 0
+      valSUM += adcval;
+    }
+    valSUM = valSUM / 250;
     // mach was mit adcval
-    Serial.println(adcval);
+    Serial.println(valSUM);
     //Serial.println("= adcval");
-    out(adcval);
+
+    //−95×LN((schwarze Oberfläche '406,480814729724'−42,5)÷5)+445
+    distance = -95 * log((valSUM - 42.5)/5)+445;
+    distance *= 100;
+    out(distance);
     //_delay_ms(1000);
     //adcval = ADC_Read_Avg(2, 4);  // Kanal 2, Mittelwert aus 4 Messungen
     // mach was mit adcval
