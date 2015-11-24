@@ -1,3 +1,4 @@
+
 /*
  * Praktische Aufgabe 2:
  * In dieser Aufgabe sollen die Grundlagen für eine erste Umgebungserfassung mithilfe von Infrarot-Distanz-Sensoren und der IMU (Inertial Measurement Unit) erfolgen. 
@@ -12,6 +13,8 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <Wire.h>
+#include <imu.h>
 
 /*
  * Clock PC2
@@ -183,6 +186,29 @@ uint16_t ADC_Read_Avg( uint8_t channel, uint8_t nsamples )
   return (uint16_t)( sum / nsamples );
 }
  
+void imuTest() {  double dT = ( (double) MPU9150_readSensor(MPU9150_TEMP_OUT_L,MPU9150_TEMP_OUT_H) + 12412.0) / 340.0;
+  Serial.print(dT);
+  Serial.print("  ");
+  Serial.print(MPU9150_readSensor(MPU9150_CMPS_XOUT_L,MPU9150_CMPS_XOUT_H));
+  Serial.print("  ");
+  Serial.print(MPU9150_readSensor(MPU9150_CMPS_YOUT_L,MPU9150_CMPS_YOUT_H));
+  Serial.print("  ");
+  Serial.print(MPU9150_readSensor(MPU9150_CMPS_ZOUT_L,MPU9150_CMPS_ZOUT_H));
+  Serial.print("  ");
+  Serial.print(MPU9150_readSensor(MPU9150_GYRO_XOUT_L,MPU9150_GYRO_XOUT_H));
+  Serial.print("  ");
+  Serial.print(MPU9150_readSensor(MPU9150_GYRO_YOUT_L,MPU9150_GYRO_YOUT_H));
+  Serial.print("  ");
+  Serial.print(MPU9150_readSensor(MPU9150_GYRO_ZOUT_L,MPU9150_GYRO_ZOUT_H));
+  Serial.print("  ");
+  Serial.print(MPU9150_readSensor(MPU9150_ACCEL_XOUT_L,MPU9150_ACCEL_XOUT_H));
+  Serial.print("  ");
+  Serial.print(MPU9150_readSensor(MPU9150_ACCEL_YOUT_L,MPU9150_ACCEL_YOUT_H));
+  Serial.print("  ");
+  Serial.print(MPU9150_readSensor(MPU9150_ACCEL_ZOUT_L,MPU9150_ACCEL_ZOUT_H));
+  Serial.println();
+  delay(100);
+}
 
 int main( void )
 {
@@ -201,6 +227,13 @@ int main( void )
   Serial.begin(57600);
   _delay_ms(1000);
   Serial.println("ADC Test");
+
+  Wire.begin();
+
+  // Clear the 'sleep' bit to start the sensor.
+  MPU9150_writeSensor(MPU9150_PWR_MGMT_1, 0);
+
+  MPU9150_setupCompass();  
   
   while( 1 ) {
     valSUM = 0;
@@ -222,8 +255,13 @@ int main( void )
     //_delay_ms(1000);
     //adcval = ADC_Read_Avg(2, 4);  // Kanal 2, Mittelwert aus 4 Messungen
     // mach was mit adcval
+
+    imuTest();
   }
+
+  
 }
+
 
 
 
