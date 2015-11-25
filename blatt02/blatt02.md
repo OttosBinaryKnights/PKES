@@ -17,6 +17,8 @@ Geben Sie die Konfiguration der Kontrollregister (ADCSRA und ADMUX) an. Die notw
 * GPS
 * Kompasssensoren
 * automotive Radarsysteme
+
+---
 ## A
 **Welche Umgebungsdaten stellt die in der Übung verwendet IMU bereit? Wie kann auf der Basis von deren Messungen die Position/Positionsänderung des Roboters bestimmt werden?**
 
