@@ -186,7 +186,7 @@ void waitms(double timer){
 uint16_t adcval;
   uint32_t valSUM;
   int distance;
-  int mode = 1;
+  int mode = 2;
   
 void setup(){
   
@@ -197,6 +197,9 @@ void setup(){
   DDRC |= _BV(DDC2);  //CLK
   DDRC |= _BV(DDC3);  //Data
   DDRC |= _BV(DDC4);  //LATCH
+
+  //PA0 und PA1 als input
+  //DDRA = 0x00; 
   
   ADC_Init();
   
@@ -229,7 +232,7 @@ void loop()
             valSUM += adcval;
           }
         valSUM = valSUM / 250;
-
+        
         // Ausgabe des Messwerts
         Serial.println(valSUM);
     
@@ -237,11 +240,12 @@ void loop()
         //−95×LN((schwarze Oberfläche '406,480814729724'−42,5)÷5)+445
         distance = -95 * log((valSUM - 42.5)/5)+445;
         distance *= 10;
-
-        //if(distance<4 || distance>40) out(88800);
-         out(distance);  //Ausgabe ans Display
+        
+        if(distance<400 || distance>4000) out(888); //Fehlerausgabe wenn kleiner als
+        else out(distance);  //Ausgabe ans Display
        break;
 
+       default:
        case 2:
           imuTest();
           Serial.print("x-Angle: ");
@@ -251,6 +255,9 @@ void loop()
           WaageOut();
        break;
     }
+    /* Messung per Switch 1 = Distanz und Switch 2 = Level wechseln */
+    //if(PINA & 0b00000001 == 0b00000001){ mode = 1; Serial.println("-----Distanz Messung-----");}
+    //if(PINA & 0b00000010 == 0b00000010){ mode = 2; Serial.println("-----Level Messung-----");}
 }
 
 
