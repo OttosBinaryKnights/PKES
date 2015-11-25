@@ -186,7 +186,7 @@ void waitms(double timer){
 uint16_t adcval;
   uint32_t valSUM;
   int distance;
-  int mode = 2;
+  int mode = 1;
   
 void setup(){
   
@@ -229,7 +229,7 @@ void loop()
             valSUM += adcval;
           }
         valSUM = valSUM / 250;
-        
+
         // Ausgabe des Messwerts
         Serial.println(valSUM);
     
@@ -237,7 +237,9 @@ void loop()
         //−95×LN((schwarze Oberfläche '406,480814729724'−42,5)÷5)+445
         distance = -95 * log((valSUM - 42.5)/5)+445;
         distance *= 10;
-        out(distance);  //Ausgabe ans Display
+
+        //if(distance<4 || distance>40) out(88800);
+         out(distance);  //Ausgabe ans Display
        break;
 
        case 2:

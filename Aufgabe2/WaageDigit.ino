@@ -37,20 +37,19 @@ byte GetWaageDigit(int digit){
   else{
     output = 0b00000010;
   }
-  if(yangle>30 && digit == 0) output |= 0b01100000;
-  else if(yangle>15 && digit == 0) output |= 0b00001100;
+  if(yangle<-30 && digit == 0) output |= 0b00001100;
+  else if(yangle<-15 && digit == 0) output |= 0b01100000;
   
-  if(yangle<-30 && digit == 2) output |= 0b01100000;
-  else if(yangle<-15 && digit == 2) output |= 0b00001100;
+  if(yangle>30 && digit == 2) output |= 0b01100000;
+  else if(yangle>15 && digit == 2) output |= 0b00001100;
 
-  if(abs(yangle)>10 && digit == 1) output |= 0b01101100;
-  else if(digit == 1){
+  if(abs(yangle)<=15 && digit == 1){
     if(yangle>-5) output |= 0b01100000;
     if(yangle<5) output |= 0b00001100;
   }
   
 
   //Fehler
-  if(abs(xangle)>20 || abs(yangle)>40 ) return 0b11111111;
+  if(abs(xangle)>40 || abs(yangle)>40 ) return 0b11111111;
   return output;
 }
