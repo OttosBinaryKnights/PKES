@@ -24,9 +24,7 @@ void WaageOut() {
 byte GetWaageDigit(int digit){
   byte output = 0b00000000;
 
-  //if (abs(xangle)<5) output = output || 0b01101100;  //centered
-
-  //Vertikale abweichung
+  //Vertikale Abweichung
   if(xangle<-10)
   {
     output = 0b10000000;
@@ -37,6 +35,8 @@ byte GetWaageDigit(int digit){
   else{
     output = 0b00000010;
   }
+
+  //Horrizontale Abweichung
   if(yangle<-30 && digit == 0) output |= 0b00001100;
   else if(yangle<-15 && digit == 0) output |= 0b01100000;
   
@@ -49,7 +49,7 @@ byte GetWaageDigit(int digit){
   }
   
 
-  //Fehler
+  //Fehlerabfangen
   if(abs(xangle)>40 || abs(yangle)>40 ) return 0b11111111;
   return output;
 }

@@ -148,8 +148,7 @@ void ADC_Init(void)
   ADCSRA = (1<<ADPS1) | (1<<ADPS0);     // Frequenzvorteiler
   ADCSRA |= (1<<ADEN);                  // ADC aktivieren
  
-  /* nach Aktivieren des ADC wird ein "Dummy-Readout" empfohlen, man liest
-     also einen Wert und verwirft diesen, um den ADC "warmlaufen zu lassen" */
+  /* "Dummy-Readout" */
  
   ADCSRA |= (1<<ADSC);                  // eine ADC-Wandlung 
   while (ADCSRA & (1<<ADSC) ) {         // auf Abschluss der Konvertierung warten
@@ -167,7 +166,7 @@ uint16_t ADC_Read( uint8_t channel )
   return ADCW;                    // ADC auslesen und zurückgeben
 }
  
-void imuTest() {  double dT = ( (double) MPU9150_readSensor(MPU9150_TEMP_OUT_L,MPU9150_TEMP_OUT_H) + 12412.0) / 340.0;
+void getIMUangle() {  double dT = ( (double) MPU9150_readSensor(MPU9150_TEMP_OUT_L,MPU9150_TEMP_OUT_H) + 12412.0) / 340.0;
   double dx = MPU9150_readSensor(MPU9150_ACCEL_XOUT_L,MPU9150_ACCEL_XOUT_H);
   double dy = MPU9150_readSensor(MPU9150_ACCEL_YOUT_L,MPU9150_ACCEL_YOUT_H);
   double dz = MPU9150_readSensor(MPU9150_ACCEL_ZOUT_L,MPU9150_ACCEL_ZOUT_H);
@@ -247,7 +246,7 @@ void loop()
 
        default:
        case 2:
-          imuTest();
+          getIMUangle();
           Serial.print("x-Angle: ");
           Serial.print(xangle);
           Serial.print("  y-Angle: ");
@@ -255,6 +254,9 @@ void loop()
           WaageOut();
        break;
     }
+    
+    if(millis() % 20000 < 10000) mode=1;
+    else mode = 2;
     /* Messung per Switch 1 = Distanz und Switch 2 = Level wechseln */
     //if(PINA & 0b00000001 == 0b00000001){ mode = 1; Serial.println("-----Distanz Messung-----");}
     //if(PINA & 0b00000010 == 0b00000010){ mode = 2; Serial.println("-----Level Messung-----");}
