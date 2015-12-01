@@ -3,16 +3,37 @@
 **Ein Mikrocontroller AtMega2560 soll zur Analog-Digital-Wandlung eingesetzt werden. Folgende Eigenschaften sollen dabei gelten**
 * **Der Analog/Digital-Converter soll kontinuierlich eine Wandlung durchführen.**
 * **Der entsprechende Interrupt soll abgeschaltet sein.**
-* **Die Wandlungszeit soll so kurz wie möglich sein.
-Geben Sie die Konfiguration der Kontrollregister (ADCSRA und ADMUX) an. Die notwendigen Informationen hierzu finden sie auf der Webseite unter Veröffentlichungen und Paper.**
+* **Die Wandlungszeit soll so kurz wie möglich sein.**
+
+**Geben Sie die Konfiguration der Kontrollregister (ADCSRA und ADMUX) an. Die notwendigen Informationen hierzu finden sie auf der Webseite unter Veröffentlichungen und Paper.**
+
+![ADMUX](ADMUX.png)
+![Bit Expanation](ADMUX_BitExplanation1.png)
+![Bit Expanation](ADMUX_BitExplanation2.png)
+
+| Bit   |  7  |  6  |  5  |  4  |  3  |  2  |  1  |  0  |
+| ----- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Value |  0  |  0  |  0  |
+
+![ADCSRA](ADCSRA.png)
+![Bit Expanation](ADCSRA_BitExplanation.png)
+
+| Bit   |  7  |  6  |  5  |  4  |  3  |  2  |  1  |  0  |
+| ----- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Value |  1  |  1  |  0  |  1  |  0  |  0  |  0  |  0  |
 
 ---
 ## 2.
 **Die Interruptroutine in der vorhergehenden Aufgabe soll in einer zeitkritischen Anwendung laufen. Wie würden Sie vorgehen, um die maximale Zeitdauer zu bestimmen, bis ein High-Pegel am Eingangspin mit einem High-Pegel am Ausgangspin quittiert wird.**
 
 ---
-## 3. **Sie bereiten einen Roboter für den Einsatz in der Antarktis vor. Bewerten Sie die folgende Sensorauswahl, für Lokalisationsaufgaben/Hindernissdetektion im Hinblick auf die Robustheit, Genauigkeit und Präzision:**
+## 3.
+**Sie bereiten einen Roboter für den Einsatz in der Antarktis vor. Bewerten Sie die folgende Sensorauswahl, für Lokalisationsaufgaben/Hindernissdetektion im Hinblick auf die Robustheit, Genauigkeit und Präzision:**
 * Ultraschallsensoren
+ * Distanzen von wenigen Zentimetern bis hin zu 10 Metern sind möglich.
+ * typische Messgenauigkeiten von circa +/-1,5%
+ * Pro: Schallwellen werden an verschiedenen Oberflächen gut reflektiert. Die zu erfassenden Objekte können fest, flüssig, körnig oder pulverförmig sein.
+ * Con: Medien mit rauen oder porösen Oberflächen reflektieren den Schall diffus und reduzieren damit den Messbereich der Ultraschall-Sensoren.
 * Laserscanner
 * GPS
 * Kompasssensoren
