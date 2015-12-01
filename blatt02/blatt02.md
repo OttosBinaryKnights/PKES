@@ -95,7 +95,7 @@
 
 * **kooperative Fusion**
   * gewünschte Information erst *durch Zusammensetzen verschiedener Ausgabedaten*
-  
+
 =======
 
 * konkurrierenden Fusion – Redundante Erfassung des selben Sichtbereiches
@@ -108,10 +108,13 @@
 **Was versteht man unter Modalität von Sensoren? Geben Sie Modalitäten an, die in Distanzsensoren verwendet werden. Warum werden unterschiedliche Modalitätsformen in einer Anwendung kombiniert?**
 
 ```
- Eine Modalität bezeichnet ein kommunikatives System, das durch die   Art und Weise wie Information kodiert und interpretiert wird,         gekennzeichnet ist.
+ Eine Modalität bezeichnet ein kommunikatives System, das durch die Art und Weise wie Information kodiert und interpretiert wird, gekennzeichnet ist.
 ```
-* in Distanzsensoren werden die Modalitäten von Ultraschall, Laserlicht, taktil, Kapazität
-* Eine Kombination ist wichtig da jede Modalität bestimmte Eigenschaft hat. So z.B. die Reichweite. Ein Sensor mit taktiler Modalität kann meist nur noch als letzter Stopper eingesetzt werden. Ultraschallsensoren dagegen wehmen das nähere Umweld war. Die Kombination der Sensoren ergibt eine verbesserte Übersicht über das Umfeld.
+(oder: **nach physikalischer Messgröße (Modalität)**)
+* in Distanzsensoren werden die Modalitäten von Ultraschall, Laserlicht, taktil, Kapazität verwendet
+* Eine Kombination ist wichtig da jede Modalität bestimmte Eigenschaft hat.
+  * Reichweite: Ein Sensor mit taktiler Modalität kann meist nur noch als letzter Stopper eingesetzt werden. Ultraschallsensoren dagegen wehmen das nähere Umwelt war.
+* Die Kombination der Sensoren ergibt eine verbesserte Übersicht über das Umfeld.
 
 ---
 ## 6.
