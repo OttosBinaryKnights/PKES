@@ -72,7 +72,7 @@
 
 ---
 ## 5.
-**Für die Zusammenfassung von Messwerten und zur Merkmalsextraktion unterscheidet man zwischen der komplementären, konkurierenden und kooperativen Fusion. Beschrei- ben Sie die Verfahren unter Benennung eines Einsatzszenarios.**
+**Für die Zusammenfassung von Messwerten und zur Merkmalsextraktion unterscheidet man zwischen der komplementären, konkurierenden und kooperativen Fusion. Beschreiben Sie die Verfahren unter Benennung eines Einsatzszenarios.**
 
 ---
 ## B
@@ -80,7 +80,13 @@
 
 ---
 ## 6.
-**Recherchieren Sie das Phänomen des ”cross talk“ bei Ultraschallsensoren und Maßnah- men zur Korrektur.**
+**Recherchieren Sie das Phänomen des ”cross talk“ bei Ultraschallsensoren und Maßnahmen zur Korrektur.**
+
+* eine Welle kann auf mehreren Objekten reflektiert werden, bevor sie als Echo vom Sensor empfangen wird
+![Cross-Talk](crosstalk1.png)
+
+* bei gleichzeitigem Betrieb von mehreren Ultraschallsensoren kann ein Sensor das Echo einer Welle empfangen, die von einem anderen Sensor gesendet wurde
+![Cross-Talk](crosstalk2.png)
 
 ---
 ## 7.
