@@ -71,6 +71,9 @@
  * Accelerometer (Beschleunigungssensor)
  * Magnetometer (Messung magnetischer Flussdichten)
 
+
+ Integration der Bewegungsbeschleunigung, dazu muss aber Erdbeschleunigung rausgerechnet werden - (Dazu Gyro zur Horrizontbestimmung) und sonst bestimmt "noch viel schwarze Magie"
+
 ---
 ## 4.
 **Was ist der Unterschied zwischen Inkremental- und Absolutdrehgebern. Benennen Sie jeweils ein Einsatzbeispiel.**
