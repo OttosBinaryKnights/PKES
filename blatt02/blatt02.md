@@ -34,18 +34,41 @@
  * typische Messgenauigkeiten von circa +/-1,5%
  * Pro: Schallwellen werden an verschiedenen Oberflächen gut reflektiert. Die zu erfassenden Objekte können fest, flüssig, körnig oder pulverförmig sein.
  * Con: Medien mit rauen oder porösen Oberflächen reflektieren den Schall diffus und reduzieren damit den Messbereich der Ultraschall-Sensoren.
+ * gut geeignet zur Hindernissdetektion auf Kurz- bis Mitteldistanz
 * Laserscanner
+ * nicht geeignet wegen der unterschiedlichen Refelxionsrichtung der Hindernisse
 * GPS
+ * Genauigkeit: 5-20m (Verbesserung durch den Einsatz von WAAS/EGNOS-Korrektursignale --> wahrscheinlich nicht in der Antarktis vorhanden)
+ * Genauigkeit ist abhängig von der Signalstärke(Bewölkung)
+ * geeignet zur groben Orientierung
 * Kompasssensoren
+ * ungeeignet auf Grund des magnetischen Feldes der Erde
 * automotive Radarsysteme
+ * unabhängig von äußeren Einflüssen
+ * Messung von Entfernung und relativer Geschwindigkeit
+ * Entfernungen bis 250m
+ * sehr zuverlässlich und genau
 
 ---
 ## A
 **Welche Umgebungsdaten stellt die in der Übung verwendet IMU bereit? Wie kann auf der Basis von deren Messungen die Position/Positionsänderung des Roboters bestimmt werden?**
 
+* Umgebungsdaten:
+ * Gyroscope (Lagedaten)
+ * Accelerometer (Beschleunigungssensor)
+ * Magnetometer (Messung magnetischer Flussdichten)
+
 ---
 ## 4.
 **Was ist der Unterschied zwischen Inkremental- und Absolutdrehgebern. Benennen Sie jeweils ein Einsatzbeispiel.**
+
+* Beim Absolutwertgeber erfolgt die Erfassung über eine Kodierscheibe. Mehrere Umdrehungen werden durch ein eingebautes Getriebe oder andere Verfahren (z.B. Wiegand-Draht) erkannt, es folgt die serielle Übertragung der Messwerte zum Auswertegerät. Der Messwert steht sofort nach dem Einschalten zur Verfügung.
+ * Positionieraufgaben
+ * Zählaufgaben
+* Inkrementalgeber liefern eine bestimmte Anzahl an Impulsen pro Umdrehung sowie einen sogenannten Nullimpuls pro Umdrehung. Hier findet die Erfassung über eine Strichscheibe, Magnetrad (Polrad) oder Zahnradflanken statt.
+ * Typische Einsatzgebiete sind die Positionsbestimmung in der Automatisierungstechnik sowie Bedienungselemente von elektronischen Geräten
+ * Tintenstrahldruckern messen die Position des Druckwagens
+ * Bewegungen der Rollkugel in optomechanischen Computermäusen
 
 ---
 ## 5.
