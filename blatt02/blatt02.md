@@ -84,9 +84,11 @@
 
 * eine Welle kann auf mehreren Objekten reflektiert werden, bevor sie als Echo vom Sensor empfangen wird
 ![Cross-Talk](crosstalk1.png)
+ * Verwendung mehrerer Sensoren mit genügend Abstand zur Unterscheidbarkeit von Objekten
 
 * bei gleichzeitigem Betrieb von mehreren Ultraschallsensoren kann ein Sensor das Echo einer Welle empfangen, die von einem anderen Sensor gesendet wurde
 ![Cross-Talk](crosstalk2.png)
+ * Eine Möglichkeit bei Robotern mit mehreren Ultraschallsensoren ist, die Sensoren einen nach dem anderen zu aktivieren, was jedoch die allgemeine Auffrischungsrate verringert.
 
 ---
 ## 7.
