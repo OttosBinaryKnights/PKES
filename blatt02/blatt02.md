@@ -133,7 +133,7 @@
 **In der Vorlesung wird ein Experiment der Universität des Saarlandes vorgestellt, dass die Möglichkeiten der laserbasierten Lichtübertragung untersucht. Abbildung 1 zeigt die Abhängigkeit der Leistungsdichte vom horizontalen Auftreffpunkt des Laserlichtes.**
 
 ![Abbildung 1](Abbildung1.png)
-Abbildung 1: Leistungsausbeute der Photozelle in Abhängigkeit zur horizontalen Ausrich- tung des Lasers [Uni Saarland]
+Abbildung 1: Leistungsausbeute der Photozelle in Abhängigkeit zur horizontalen Ausrichtung des Lasers [Uni Saarland]
 
 **Welcher maximale Winkelfehler ist für die auf der Vorlesungsfolie genannten Entfernungen [35m, 55m, 130m, 230m] zulässig, wenn sichergestellt werden soll, dass die Leistungsdichte nicht unter die Hälfte des Maximalwertes fällt.**
 
@@ -147,6 +147,12 @@ Abbildung 2: Kennlinie eines Roboterantriebes
 
 a) **Wie kommt nach Ihrer Auffassung das nicht-lineare Verhalten zustande?**
 
+Reibung
+
 b) **Welches Verhalten ist für eine PWM Vorgabe kleiner als 300 zu beobachten?**
 
+Brummen, sonst nichts
+
+
 c) **Entwerfen Sie konzeptionell eine Funktion, die die Kennlinie linearisiert.**
+Lookup Table oder annäherung durch drei Geraden
