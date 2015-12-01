@@ -87,6 +87,15 @@
 ## 5.
 **Für die Zusammenfassung von Messwerten und zur Merkmalsextraktion unterscheidet man zwischen der komplementären, konkurierenden und kooperativen Fusion. Beschreiben Sie die Verfahren unter Benennung eines Einsatzszenarios.**
 
+* **komplementäre Fusion**
+  * Vollständigkeit der Daten erhöhen durch unabhängige *Sensoren die untersch. Bereiche/Zeiten* messen
+
+* **konkurierende Fusion**
+  * Sensoren messen gleichen Bereich und liefern Ergebnisse gleicher Art. *Genauigkeit wird durch (gewichtete) Verknüpfung erhöht*
+
+* **kooperative Fusion**
+  * gewünschte Information erst *durch Zusammensetzen verschiedener Ausgabedaten*
+
 ---
 ## B
 **Was versteht man unter Modalität von Sensoren? Geben Sie Modalitäten an, die in Distanzsensoren verwendet werden. Warum werden unterschiedliche Modalitätsformen in einer Anwendung kombiniert?**
