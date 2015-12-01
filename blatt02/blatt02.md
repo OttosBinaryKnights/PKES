@@ -137,6 +137,20 @@ Abbildung 1: Leistungsausbeute der Photozelle in Abhängigkeit zur horizontalen 
 
 **Welcher maximale Winkelfehler ist für die auf der Vorlesungsfolie genannten Entfernungen [35m, 55m, 130m, 230m] zulässig, wenn sichergestellt werden soll, dass die Leistungsdichte nicht unter die Hälfte des Maximalwertes fällt.**
 
+$P_{max}=540$
+
+$P_{halb}=270 -> x \pm 1.2 cm$
+
+$arctan(1.25/3500) = 0.024$°
+
+$arctan(1.25/5500) = 0.01302$°
+
+$arctan(1.25/13000) = 0.0055..$°
+
+$arctan(1.25/23000) = 0.003114$°
+
+-> Scheisse kleiner Winkelfehler nur erlaubt
+
 ---
 ## 8.
 **In Abbildung 2 sehen Sie die experimentell ermittelte Kennlinie des an unseren Robotern eingesetzten Elektromotors.**
