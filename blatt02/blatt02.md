@@ -29,25 +29,38 @@
 ---
 ## 3.
 **Sie bereiten einen Roboter für den Einsatz in der Antarktis vor. Bewerten Sie die folgende Sensorauswahl, für Lokalisationsaufgaben/Hindernissdetektion im Hinblick auf die Robustheit, Genauigkeit und Präzision:**
+
 * Ultraschallsensoren
- * Distanzen von wenigen Zentimetern bis hin zu 10 Metern sind möglich.
- * typische Messgenauigkeiten von circa +/-1,5%
- * Pro: Schallwellen werden an verschiedenen Oberflächen gut reflektiert. Die zu erfassenden Objekte können fest, flüssig, körnig oder pulverförmig sein.
- * Con: Medien mit rauen oder porösen Oberflächen reflektieren den Schall diffus und reduzieren damit den Messbereich der Ultraschall-Sensoren.
- * gut geeignet zur Hindernissdetektion auf Kurz- bis Mitteldistanz
+  * Robustheit
+    * Probleme mit diffusen Oberflächen
+    * Eis/ Schnee auf Ultraschallerzeuger/Membran/Piezo?!
+  * Genauigkeit und Präzision
+    * cm bis ~10m
+    * typisch ca +/-1,5%
 * Laserscanner
- * nicht geeignet wegen der unterschiedlichen Refelxionsrichtung der Hindernisse
+  * Robustheit
+    * nicht geeignet wegen der unterschiedlichen Refelexionsrichtung der Hindernisse (Schnee?!)
+  * Genauigkeit und Präzision
+    * sehr genau, angeblich bis zu 1mm
 * GPS
- * Genauigkeit: 5-20m (Verbesserung durch den Einsatz von WAAS/EGNOS-Korrektursignale --> wahrscheinlich nicht in der Antarktis vorhanden)
- * Genauigkeit ist abhängig von der Signalstärke(Bewölkung)
- * geeignet zur groben Orientierung
+  * Robustheit
+    * sehr robust
+  * Genauigkeit und Präzision
+    * 5-20m (Verbesserung durch den Einsatz von WAAS/EGNOS-Korrektursignale --> wahrscheinlich nicht in der Antarktis vorhanden)
+    * abhängig von der Signalstärke(Bewölkung) / mehr von Satelittenanzahl
+     * geeignet zur groben Orientierung
 * Kompasssensoren
- * ungeeignet auf Grund des magnetischen Feldes der Erde
+  * Robustheit
+    * sehr robust - in Gehäuse geschützt
+  * Genauigkeit und Präzision
+    * ungeeignet auf Grund des magnetischen Feldes der Erde
 * automotive Radarsysteme
- * unabhängig von äußeren Einflüssen
- * Messung von Entfernung und relativer Geschwindigkeit
- * Entfernungen bis 250m
- * sehr zuverlässlich und genau
+  * Robustheit
+    * unabhängig von äußeren Einflüssen
+  * Genauigkeit und Präzision
+    * sehr zuverlässlich und genau
+    * Messung von Entfernung und relativer Geschwindigkeit
+    * Entfernungen bis 250m
 
 ---
 ## A
@@ -107,5 +120,7 @@ Abbildung 1: Leistungsausbeute der Photozelle in Abhängigkeit zur horizontalen 
 Abbildung 2: Kennlinie eines Roboterantriebes
 
 a) **Wie kommt nach Ihrer Auffassung das nicht-lineare Verhalten zustande?**
+
 b) **Welches Verhalten ist für eine PWM Vorgabe kleiner als 300 zu beobachten?**
+
 c) **Entwerfen Sie konzeptionell eine Funktion, die die Kennlinie linearisiert.**
