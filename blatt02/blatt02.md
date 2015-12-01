@@ -95,10 +95,23 @@
 
 * **kooperative Fusion**
   * gewünschte Information erst *durch Zusammensetzen verschiedener Ausgabedaten*
+  
+=======
+
+* konkurrierenden Fusion – Redundante Erfassung des selben Sichtbereiches
+* komplementäre Fusion – Unabhängige Erfassung verschiedener Ausschnitte der Umgebung
+* kooperative Fusion - Kombination verschiedener Modalitäten
+
 
 ---
 ## B
 **Was versteht man unter Modalität von Sensoren? Geben Sie Modalitäten an, die in Distanzsensoren verwendet werden. Warum werden unterschiedliche Modalitätsformen in einer Anwendung kombiniert?**
+
+```
+ Eine Modalität bezeichnet ein kommunikatives System, das durch die   Art und Weise wie Information kodiert und interpretiert wird,         gekennzeichnet ist.
+```
+* in Distanzsensoren werden die Modalitäten von Ultraschall, Laserlicht, taktil, Kapazität
+* Eine Kombination ist wichtig da jede Modalität bestimmte Eigenschaft hat. So z.B. die Reichweite. Ein Sensor mit taktiler Modalität kann meist nur noch als letzter Stopper eingesetzt werden. Ultraschallsensoren dagegen wehmen das nähere Umweld war. Die Kombination der Sensoren ergibt eine verbesserte Übersicht über das Umfeld.
 
 ---
 ## 6.
@@ -119,13 +132,14 @@
 ![Abbildung 1](Abbildung1.png)
 Abbildung 1: Leistungsausbeute der Photozelle in Abhängigkeit zur horizontalen Ausrich- tung des Lasers [Uni Saarland]
 
-**Welcher maximale Winkelfehler ist für die auf der Vorlesungsfolie genannten Entfernungen [35m, 55m, 130m, 230m] zulässig, wenn sichergestellt werden soll, dass die Leistungsdichte nicht unter die Ha ̈lfte des Maximalwertes fällt.**
+**Welcher maximale Winkelfehler ist für die auf der Vorlesungsfolie genannten Entfernungen [35m, 55m, 130m, 230m] zulässig, wenn sichergestellt werden soll, dass die Leistungsdichte nicht unter die Hälfte des Maximalwertes fällt.**
 
 ---
 ## 8.
 **In Abbildung 2 sehen Sie die experimentell ermittelte Kennlinie des an unseren Robotern eingesetzten Elektromotors.**
 
 ![Abbildung 2](Abbildung2.png)
+
 Abbildung 2: Kennlinie eines Roboterantriebes
 
 a) **Wie kommt nach Ihrer Auffassung das nicht-lineare Verhalten zustande?**
