@@ -39,7 +39,7 @@
     * typisch ca +/-1,5%
 * Laserscanner
   * Robustheit
-    * nicht geeignet wegen der unterschiedlichen Refelexionsrichtung der Hindernisse (Schnee?!)
+    * nicht temperaturempfindlich
   * Genauigkeit und Präzision
     * sehr genau, angeblich bis zu 1mm
 * GPS
@@ -48,7 +48,8 @@
   * Genauigkeit und Präzision
     * 5-20m (Verbesserung durch den Einsatz von WAAS/EGNOS-Korrektursignale --> wahrscheinlich nicht in der Antarktis vorhanden)
     * abhängig von der Signalstärke(Bewölkung) / mehr von Satelittenanzahl
-     * geeignet zur groben Orientierung
+    * geeignet zur groben Orientierung
+    * wenige Satelliten in Sichtweite
 * Kompasssensoren
   * Robustheit
     * sehr robust - in Gehäuse geschützt
