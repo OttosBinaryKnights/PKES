@@ -1,6 +1,5 @@
 #include <imu.h>
 
-
 /*
  * Praktische Aufgabe 2:
  * In dieser Aufgabe sollen die Grundlagen für eine erste Umgebungserfassung mithilfe von Infrarot-Distanz-Sensoren und der IMU (Inertial Measurement Unit) erfolgen. 
@@ -11,6 +10,10 @@
  * Es sollten mindestens die Distanzen zwischen 10cm und 25cm korrekt wiedergegeben werden (mehr ist auch nicht schlecht). Achten Sie genau den Sensor-Typen, da diese zwar gleich aussehen, 
  * aber sehr unterschiedliche Reichweiten und damit Kenngrößen haben. Auf jedem Sensor steht eine Bezeichnung des Typs.
  * Bei der Inertialsensorik soll zunächst nur der gemessene Beschleunigungswert in eine Orientierung (Winkellage gegenüber dem Horizont) übersetzt werden. Dies soll genutzt werden um eine einfache Wasserwage zu implementieren... Einfache trigonometrische Funktionen sind hier von Vorteil :-)
+ *
+ 
+  Motor1: Timer 4 (im Datenblatt( (an Port H)
+ FastPWM!
  */
 
 
