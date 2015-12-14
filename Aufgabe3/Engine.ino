@@ -18,3 +18,22 @@ void InitEngines()
     OCR4A  = 0; // Power FWD Right
     OCR4B  = 0; // Power RWD Right
 }
+
+void EngForward(int speed){
+  setEngine(0,speed);
+  setEngine(1,speed);
+}
+
+//if engineNum==0 -> right
+//   engineNum==1 -> left
+// speed -> value between 0 and 255 
+void setEngine(boolean engineNum, int speed){
+  if(engineNum){
+    OCR1A  = speed; // Power FWD Left
+    OCR1B  = speed; // Power RWD Left
+  } else {
+    OCR4A  = speed; // Power FWD Right
+    OCR4B  = speed; // Power RWD Right
+  }
+}
+
