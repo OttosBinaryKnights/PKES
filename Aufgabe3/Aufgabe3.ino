@@ -46,168 +46,18 @@ boolean neg = false;
 double xangle=0;
 double yangle=0;
 
-void out(int o) {
-  //Startbit
-  PORTC |= _BV(PORTC3);
-  Clock();
-
-  int t = o;
-
-  //Setzt Negativ flag, falls Wert negativ ist
-  if (o < 0) {
-    neg = true;
-    t *= -0.01;
-    dez = 2;
-  }
-  else
-  {
-    neg = false;
-
-    //Verschiebe Komma.
-    if (t >= 10000) {
-      t = t / 100;
-      dez = 2;
-    }
-    else if (t >= 1000) {
-      t = t / 10;
-      dez = 1;
-    }
-    else {
-      dez = 0;
-    }
-  }
-
-  //Berechne die einzelnen Werte für Stellen 1-3
-  int d[3];
-  for (int i = 2; i >= 0; i--) {
-    d[i] = t % 10;
-    t = t / 10;
-  }
-
-  if (neg == true) {
-    if (d[0] == 1) d[0] = -1;
-    else d[0] = -10;
-  }
-
-  for (int i = 0; i <= 2; i++) {
-    //Gebe die Segmente der 3 Digits aus
-    if (i == dez)
-    {
-      ShiftDigit( d[i], true);
-    }
-    else
-    {
-      ShiftDigit( d[i], false);
-    }
-  }
-
-  //Unbelegte Bits werden durchgeschaltet
-  for (int i = 25; i < 36; i++) {
-    Clock();
-  }
-}
-
-//Erzeugt ein Clock-Cycle
-void Clock(void) {
-  _delay_ms(CLOCK_DELAY_MS);
-  PORTC |= _BV(PORTC2);
-  _delay_ms(CLOCK_DELAY_MS);
-  PORTC &= ~_BV(PORTC2);
-  _delay_ms(CLOCK_DELAY_MS);
-}
-
-void ShiftDigit(int in, boolean dezpoint) {
-  //Laufe durch die 8 Segmente des Digits und schalte entsprechend den Ausgang
-  for (int i = 7; i >= 0; i--) {
-    byte dig = GetDigit(in);
-    if (dezpoint == true) dig |= 1 ;
-    //if (negpoint == true) dig |= 1 << 1 ;
-
-    if (((dig >> i)  & 0x01) != 1)
-      PORTC &= ~_BV(PORTC3);
-    else
-      PORTC |= _BV(PORTC3);
-    Clock();
-  }
-
-}
-
-//Gibt die Segmentbelegung für jedes Digit zurück
-byte GetDigit(int in) {
-  switch (in) {
-    case 0: return 0b11111100;
-    case 1: return 0b01100000;
-    case 2: return 0b11011010;
-    case 3: return 0b11110010;
-    case 4: return 0b01100110;
-    case 5: return 0b10110110;
-    case 6: return 0b10111110;
-    case 7: return 0b11100000;
-    case 8: return 0b11111110;
-    case 9: return 0b11110110;
-    case -1: return 0b01100010;
-    case -10: return 0b00000010;
-    default: return 0b00000000;
-  }
-}
-
- 
-/* ADC initialisieren */
-void ADC_Init(void)
-{
-  // Versorgungsspannung als Referenz
-  ADMUX = (1<<REFS0);    
-  // interne Referenz
-  // ADMUX = (1<<REFS1) | (1<<REFS0);
-
-  ADCSRA = (1<<ADPS1) | (1<<ADPS0);     // Frequenzvorteiler
-  ADCSRA |= (1<<ADEN);                  // ADC aktivieren
- 
-  /* "Dummy-Readout" */
- 
-  ADCSRA |= (1<<ADSC);                  // eine ADC-Wandlung 
-  while (ADCSRA & (1<<ADSC) ) {         // auf Abschluss der Konvertierung warten
-  }
-  (void) ADCW;
-}
- 
-uint16_t ADC_Read( uint8_t channel )
-{
-  // Kanal waehlen, ohne andere Bits zu beeinflußen
-  ADMUX = (ADMUX & ~(0x1F)) | (channel & 0x1F);
-  ADCSRA |= (1<<ADSC);            // eine Wandlung "single conversion"
-  while (ADCSRA & (1<<ADSC) ) {   // auf Abschluss der Konvertierung warten
-  }
-  return ADCW;                    // ADC auslesen und zurückgeben
-}
- 
-void getIMUangle() {  double dT = ( (double) MPU9150_readSensor(MPU9150_TEMP_OUT_L,MPU9150_TEMP_OUT_H) + 12412.0) / 340.0;
-  double dx = MPU9150_readSensor(MPU9150_ACCEL_XOUT_L,MPU9150_ACCEL_XOUT_H);
-  double dy = MPU9150_readSensor(MPU9150_ACCEL_YOUT_L,MPU9150_ACCEL_YOUT_H);
-  double dz = MPU9150_readSensor(MPU9150_ACCEL_ZOUT_L,MPU9150_ACCEL_ZOUT_H);
-
-   yangle = atan(dy/sqrt(dx*dx+dz*dz))*57.3;
-   xangle = atan(dx/sqrt(dx*dx+dz*dz))*57.3;
-
-  _delay_ms(100);
-}
-
 void waitms(double timer){
   double newtimer;
   newtimer= millis() + newtimer;
   while(millis()<newtimer);
 }
 uint16_t adcval;
-  uint32_t valSUM;
-  int distance;
-  int mode = 2;
+uint32_t valSUM;
+int distance;
+int mode = 0;
   
 void setup(){
-  
-  
-  //float val;
-
-    /* set die drei Steuerleitungen als Output (in einem Befehl auch möglich?!)*/
+  /* set die drei Steuerleitungen als Output (in einem Befehl auch möglich?!)*/
   DDRC |= _BV(DDC2);  //CLK
   DDRC |= _BV(DDC3);  //Data
   DDRC |= _BV(DDC4);  //LATCH
@@ -223,8 +73,7 @@ void setup(){
   Serial.println("Begin Wire");
 
   Wire.begin();
-
-
+  
   // Clear the 'sleep' bit to start the sensor.
   Serial.println("Clear the 'sleep' bit to start the sensor.");
   MPU9150_writeSensor(MPU9150_PWR_MGMT_1, 0);
@@ -259,7 +108,6 @@ void loop()
         else out(distance);  //Ausgabe ans Display
        break;
 
-       default:
        case 2:
           getIMUangle();
           Serial.print("x-Angle: ");
@@ -267,6 +115,37 @@ void loop()
           Serial.print("  y-Angle: ");
           Serial.println(yangle);
           WaageOut();
+       break;
+
+       default:
+        valSUM = 0;
+        for(int i=0; i<100; i++)
+          { 
+            adcval = ADC_Read(0);  // Kanal 0
+            valSUM += adcval;
+          }
+        valSUM = valSUM / 100;
+        
+        // Ausgabe des Messwerts
+        Serial.println(valSUM);
+    
+        // Umrechnung durchgeführ für GP2D12047
+        //−95×LN((schwarze Oberfläche '406,480814729724'−42,5)÷5)+445
+        distance = -95 * log((valSUM - 42.5)/5)+445;
+        distance *= 10;
+        
+        //if(distance<400 || distance>4000) out(888); //Fehlerausgabe wenn kleiner als
+        //else out(distance);  //Ausgabe ans Display
+       
+         getIMUangle();
+         
+         Serial.print("x-Angle: ");
+         Serial.print(xangle);
+         Serial.print("  y-Angle: ");
+         Serial.println(yangle);
+
+         if(distance > 1000) EngForward(100);
+         else EngTurn(0,100);
        break;
     }
     
