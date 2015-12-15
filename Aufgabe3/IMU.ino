@@ -1,3 +1,5 @@
+// IMU Register laut: https://cdn.sparkfun.com/datasheets/Sensors/IMU/MPU-9150-Register-Map.pdf
+
 void getIMUangle() {  
   
   double dT = ( (double) MPU9150_readSensor(MPU9150_TEMP_OUT_L,MPU9150_TEMP_OUT_H) + 12412.0) / 340.0;
