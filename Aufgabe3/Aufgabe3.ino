@@ -90,14 +90,7 @@ void setup(){
 
   Serial.println("Setup COMPLETE");
 
-  for(int o= 150; o<256; o=o+2){
-    EngIn[0] = o;
-    EngIn[2] = o;
-    
-    updateOCR();
-    
-    delay(100);
-  }
+  updateOCR();
 }
 
 void loop()
@@ -160,13 +153,13 @@ void loop()
          Serial.print("  y-Angle: ");
          Serial.println(yangle);
         */
-         //if(distance > 1000) EngForward(100);
 
-          if(distance<400 || distance>4000) EngForward(0); //Fehlerausgabe wenn kleiner als
-          else if(distance < 1000) {EngTurn(1,150);}
-          else {EngForward(150);}
-        
-         //else EngTurn(0,100);
+        // Fahrverhalten
+        if(distance<400 || distance>4000) EngForward(150);
+        else if(distance < 1300) {EngForward(-160);}
+        else if(distance < 1700) {EngTurn(0,160);}
+        else {EngForward(160);}
+       
        break;
     }
     
