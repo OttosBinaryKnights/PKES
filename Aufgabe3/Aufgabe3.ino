@@ -106,6 +106,7 @@ void loop()
 {
   switch (mode) {
     case 1:
+      /*
       valSUM = 0;
       for (int i = 0; i < 250; i++)
       {
@@ -116,8 +117,8 @@ void loop()
 
       // Ausgabe des Messwerts
       Serial.println(valSUM);
-
-      distance = calcGP2D12047(valSUM);
+      */
+      distance = getDistance(false);
 
       if (distance < 400 || distance > 4000) out(888); //Fehlerausgabe wenn kleiner als
       else out(distance);  //Ausgabe ans Display
@@ -149,6 +150,7 @@ void loop()
       break;
 
     default:
+      /*
       valSUM = 0;
       for (int i = 0; i < 100; i++)
       {
@@ -163,6 +165,8 @@ void loop()
       // Umrechnung durchgeführ für GP2D12047
       //−95×LN((schwarze Oberfläche '406,480814729724'−42,5)÷5)+445
       distance = -95 * log((valSUM - 42.5) / 5) + 445;
+      */
+      distance = getDistance(false);
       distance *= 10;
 
       out(distance);  //Ausgabe ans Display

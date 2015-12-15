@@ -36,8 +36,7 @@ int calcGP2D12047(int val) {
 }
 
 int calc2Y0A2121(int val){
-  // Umrechnung durchgeführ für GP2D12047
-  //−95×LN((schwarze Oberfläche '406,480814729724'−42,5)÷5)+445
+  // Umrechnung durchgeführ für Y0A2121
         int dist = -171 * log((val - 42.5)/5)+842;
         dist *= 10;
   return dist;
@@ -65,4 +64,3 @@ int getDistance(boolean sens){
      return calcGP2D12047(valSUM);
    }
 }
-
