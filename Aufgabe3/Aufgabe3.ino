@@ -64,7 +64,7 @@ int dir;
 // IMU Variablne
 double IMU_Offset;  //Speichert den IMU_Offset
 double IMU_Heading = 0;
-double IMU_Heading_Target = 0;//90/36*50;
+double IMU_Heading_Target = 90;//90/36*50;
 unsigned long IMU_IntTimer = 0;
 
 double delta;
@@ -140,18 +140,12 @@ void loop()
 
       delta = IMU_Heading_Target - IMU_Heading;
 
-      if (delta > 0) dir = 1;
-      else dir = 0;
-
-      if (delta > 5000) delta = 5000;
-      //else if(delta < 100) delta = 0;
-      delta /= 50;
+      if (delta > 5) EngTurn(1, 150);
+      else if (delta<-5) EngTurn(0, 150);
+      else EngStopp();
 
       Serial.print("Delta: ");
       Serial.println(delta);
-
-      //EngTurn(dir, 150+delta);
-
       break;
 
     default:
