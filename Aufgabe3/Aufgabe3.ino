@@ -25,8 +25,8 @@ Die PWM Frequenz sollte unter 100 oder über 15000Hz liegen, sodass die Motoren 
 
  */
 
- // D6 PWM (OC4A), D7 PWM (OC4B)
- // D11 PWM (OC1A), D12 PWM (OC1B)
+// D6 PWM (OC4A), D7 PWM (OC4B)
+// D11 PWM (OC1A), D12 PWM (OC1B)
 
 
 #include <avr/io.h>
@@ -43,26 +43,29 @@ Die PWM Frequenz sollte unter 100 oder über 15000Hz liegen, sodass die Motoren 
 int x = 0;
 int dez = 0;
 boolean neg = false;
-double xangle=0;
-double yangle=0;
+double xangle = 0;
+double yangle = 0;
 
-byte EngIn[4] = {0,0,0,0};
+byte EngIn[4] = {0, 0, 0, 0};
 
 int m_targetAddress;
 
-void waitms(double timer){
+void waitms(double timer) {
   double newtimer;
-  newtimer= millis() + newtimer;
-  while(millis()<newtimer);
+  newtimer = millis() + newtimer;
+  while (millis() < newtimer);
 }
 uint16_t adcval;
 uint32_t valSUM;
 int distance;
 int mode = 3;
 
+// IMU Variablne
 double IMU_Offset;  //Speichert den IMU_Offset
+double IMU_Heading = 0;
+unsigned long IMU_IntTimer = 0;
 
-void setup(){
+void setup() {
   Display_Init();
 
   //PA0 und PA1 als input
@@ -87,7 +90,7 @@ void setup(){
   MPU9150_setupCompass();
 
   Serial.print("Get Offset = ");
-  IMU_Offset=IMU_getOffset();
+  IMU_Offset = IMU_getOffset();
   Serial.println(IMU_Offset);
 
   Serial.println("Setup COMPLETE");
@@ -97,79 +100,85 @@ void setup(){
 
 void loop()
 {
-   switch (mode){
-      case 1:
-        valSUM = 0;
-        for(int i=0; i<250; i++)
-          {
-            adcval = ADC_Read(0);  // Kanal 0
-            valSUM += adcval;
-          }
-        valSUM = valSUM / 250;
+  switch (mode) {
+    case 1:
+      valSUM = 0;
+      for (int i = 0; i < 250; i++)
+      {
+        adcval = ADC_Read(0);  // Kanal 0
+        valSUM += adcval;
+      }
+      valSUM = valSUM / 250;
 
-        // Ausgabe des Messwerts
-        Serial.println(valSUM);
+      // Ausgabe des Messwerts
+      Serial.println(valSUM);
 
-        distance = calcGP2D12047(valSUM);
+      distance = calcGP2D12047(valSUM);
 
-        if(distance<400 || distance>4000) out(888); //Fehlerausgabe wenn kleiner als
-        else out(distance);  //Ausgabe ans Display
-       break;
+      if (distance < 400 || distance > 4000) out(888); //Fehlerausgabe wenn kleiner als
+      else out(distance);  //Ausgabe ans Display
+      break;
 
-       case 2:
-          //getIMUangle();
-          Serial.print("x-Angle: ");
-          Serial.print(xangle);
-          Serial.print("  y-Angle: ");
-          Serial.println(yangle);
-          WaageOut();
-       break;
+    case 2:
+      //getIMUangle();
+      Serial.print("x-Angle: ");
+      Serial.print(xangle);
+      Serial.print("  y-Angle: ");
+      Serial.println(yangle);
+      WaageOut();
+      break;
 
-       case 3:
-          Serial.println(getOffset());
-          _delay_ms(100);
-       break;
+    case 3:
+      IMU_calcHeading();
+      Serial.println(IMU_Heading);
+      break;
 
-       default:
-        valSUM = 0;
-        for(int i=0; i<100; i++)
-          {
-            adcval = ADC_Read(0);  // Kanal 0
-            valSUM += adcval;
-          }
-        valSUM = valSUM / 100;
+    default:
+      valSUM = 0;
+      for (int i = 0; i < 100; i++)
+      {
+        adcval = ADC_Read(0);  // Kanal 0
+        valSUM += adcval;
+      }
+      valSUM = valSUM / 100;
 
-        // Ausgabe des Messwerts
-        Serial.println(valSUM);
+      // Ausgabe des Messwerts
+      Serial.println(valSUM);
 
-        // Umrechnung durchgeführ für GP2D12047
-        //−95×LN((schwarze Oberfläche '406,480814729724'−42,5)÷5)+445
-        distance = -95 * log((valSUM - 42.5)/5)+445;
-        distance *= 10;
+      // Umrechnung durchgeführ für GP2D12047
+      //−95×LN((schwarze Oberfläche '406,480814729724'−42,5)÷5)+445
+      distance = -95 * log((valSUM - 42.5) / 5) + 445;
+      distance *= 10;
 
-        out(distance);  //Ausgabe ans Display
+      out(distance);  //Ausgabe ans Display
 
-        // getIMUangle();
+      // getIMUangle();
 
-         /*
-         Serial.print("x-Angle: ");
-         Serial.print(xangle);
-         Serial.print("  y-Angle: ");
-         Serial.println(yangle);
-        */
+      /*
+      Serial.print("x-Angle: ");
+      Serial.print(xangle);
+      Serial.print("  y-Angle: ");
+      Serial.println(yangle);
+      */
 
-        // Fahrverhalten
-        if(distance<400 || distance>4000) EngForward(150);
-        else if(distance < 1300) {EngForward(-160);}
-        else if(distance < 1700) {EngTurn(0,160);}
-        else {EngForward(160);}
+      // Fahrverhalten
+      if (distance < 400 || distance > 4000) EngForward(150);
+      else if (distance < 1300) {
+        EngForward(-160);
+      }
+      else if (distance < 1700) {
+        EngTurn(0, 160);
+      }
+      else {
+        EngForward(160);
+      }
 
-       break;
-    }
+      break;
+  }
 
-    //if(millis() % 20000 < 10000) mode=1;
-    //else mode = 2;
-    /* Messung per Switch 1 = Distanz und Switch 2 = Level wechseln */
-    //if(PINA & 0b00000001 == 0b00000001){ mode = 1; Serial.println("-----Distanz Messung-----");}
-    //if(PINA & 0b00000010 == 0b00000010){ mode = 2; Serial.println("-----Level Messung-----");}
+  //if(millis() % 20000 < 10000) mode=1;
+  //else mode = 2;
+  /* Messung per Switch 1 = Distanz und Switch 2 = Level wechseln */
+  //if(PINA & 0b00000001 == 0b00000001){ mode = 1; Serial.println("-----Distanz Messung-----");}
+  //if(PINA & 0b00000010 == 0b00000010){ mode = 2; Serial.println("-----Level Messung-----");}
 }

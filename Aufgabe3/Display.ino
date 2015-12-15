@@ -1,4 +1,4 @@
-void Display_Init(){
+void Display_Init() {
   /* setze die drei Steuerleitungen für das Display als Output (in einem Befehl auch möglich?!)*/
   DDRC |= _BV(DDC2);  //CLK
   DDRC |= _BV(DDC3);  //Data
