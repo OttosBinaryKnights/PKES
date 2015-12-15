@@ -5,7 +5,21 @@
  * Internal oder External Clock
 (Abtasttheorem, max. 1/2 Prozessortakt!)
  * 8bit, 16bit Counter
+ * über Prescaler Count bei jedem/ jedem 8 .... möglich
 
+ * Modes:
+  * normal Mode
+    * wird hochgezählt
+    * Flag bei Überlauf
+    * Interrupt bei Überlauf oder Compare Unit möglich
+  * (CTC) Clear Timer on Compare Match
+    * zählt hoch, clear bei Match
+  * Fast PWM
+    * zählt hoch, 1 bei Match, 0 bei Überlauf
+    * (bis zu) doppelt so schnell wie Phase Correct PWM
+  * Phase Correct PWM
+    * wie fast PWM, zählt aber hoch und runter
+    * niedrigere Maximalfrequenz als Fast PWM
 
 
 ## B (ATmega 2560)
