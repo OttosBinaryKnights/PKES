@@ -56,7 +56,7 @@ void waitms(double timer){
 uint16_t adcval;
 uint32_t valSUM;
 int distance;
-int mode = 0;
+int mode = 3;
 
 
 
@@ -126,6 +126,11 @@ void loop()
           WaageOut();
        break;
 
+       case 3:
+          Serial.println(getOffset());
+          _delay_ms(100);
+       break;
+       
        default:
         valSUM = 0;
         for(int i=0; i<100; i++)

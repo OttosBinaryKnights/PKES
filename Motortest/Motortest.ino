@@ -1,5 +1,11 @@
 byte EngIn[4] = {0,0,0,0};
 
+#include <avr/io.h>
+#include <util/delay.h>
+#include <Wire.h>
+
+#include <imu.h>
+
 void setup() {
   Serial.begin(57600);
   _delay_ms(500);
