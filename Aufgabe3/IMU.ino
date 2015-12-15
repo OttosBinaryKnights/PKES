@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+// IMU Register laut: https://cdn.sparkfun.com/datasheets/Sensors/IMU/MPU-9150-Register-Map.pdf
+>>>>>>> origin/master
 
 void getIMUangle() {  
   
