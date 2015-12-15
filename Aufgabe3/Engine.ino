@@ -35,9 +35,11 @@ void EngForward(int speed) {
   setEngine(1, speed);
 }
 
+//dir 0= Links, 1= Rechts
 void EngTurn(int dir, int speed) {
-  setEngine(dir, speed);
-  setEngine(1 - dir, speed * -1);
+  if(dir<0) dir=0;
+  setEngine(dir, speed*-1);
+  setEngine(1 - dir, speed);
 }
 
 //if engineNum==0 -> right
