@@ -48,6 +48,8 @@ double yangle=0;
 
 byte EngIn[4] = {0,0,0,0};
 
+int m_targetAddress;
+
 void waitms(double timer){
   double newtimer;
   newtimer= millis() + newtimer;
