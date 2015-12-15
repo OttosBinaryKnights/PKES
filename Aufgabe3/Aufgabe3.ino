@@ -134,6 +134,7 @@ void loop()
 
     case 3:
       IMU_calcHeading();
+      out(IMU_Heading*100);
       Serial.print("Heading: ");
       Serial.println(IMU_Heading);
 
