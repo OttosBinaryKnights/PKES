@@ -52,14 +52,15 @@ void setEngine(boolean engineNum, int speed){
   Serial.println(speed);
   
   if (speed<0){
-    EngIn[0+engineNum*2] = -speed;
-    EngIn[1+engineNum*2] = 0;
+    EngIn[0+engineNum*2] = 0;
+    EngIn[1+engineNum*2] = -speed;
   }
   else
   {
-    EngIn[0+engineNum*2] = 0;
-    EngIn[1+engineNum*2] = speed;
+    EngIn[0+engineNum*2] = speed;
+    EngIn[1+engineNum*2] = 0;
   }
+  updateOCR();
 }
 
 void updateOCR(){

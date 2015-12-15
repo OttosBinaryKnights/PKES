@@ -78,6 +78,8 @@ void setup(){
   Serial.println("Begin Wire");
 
   Wire.begin();
+
+  InitEngines();
   
   // Clear the 'sleep' bit to start the sensor.
   Serial.println("Clear the 'sleep' bit to start the sensor.");
@@ -161,8 +163,8 @@ void loop()
          //if(distance > 1000) EngForward(100);
 
           if(distance<400 || distance>4000) EngForward(0); //Fehlerausgabe wenn kleiner als
-          else if(distance < 1000) {EngTurn(1,200); updateOCR();}
-          else {EngForward(200); updateOCR();}
+          else if(distance < 1000) {EngTurn(1,150);}
+          else {EngForward(150);}
         
          //else EngTurn(0,100);
        break;
