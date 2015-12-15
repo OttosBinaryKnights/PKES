@@ -87,13 +87,14 @@ int getOffset() {
   return offset;
 }
 
-int IMU_getOffset() {
-  int offset = 0;
-  for (int i = 0; i < 30; i++)
+double IMU_getOffset() {
+  double offset = 0;
+  int anz = 100;
+  for (int i = 0; i < anz; i++)
     offset += MPU9150_readSensor(MPU9150_GYRO_ZOUT_L, MPU9150_GYRO_ZOUT_H);
 
-  offset /= 30;
-  return offset;
+  offset /= anz;
+  return (int) offset;
 }
 
 void IMU_calcHeading() {
