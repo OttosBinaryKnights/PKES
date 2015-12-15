@@ -60,11 +60,10 @@ uint32_t valSUM;
 int distance;
 int mode = 3;
 
+double IMU_Offset;  //Speichert den IMU_Offset
+
 void setup(){
-  /* set die drei Steuerleitungen als Output (in einem Befehl auch möglich?!)*/
-  DDRC |= _BV(DDC2);  //CLK
-  DDRC |= _BV(DDC3);  //Data
-  DDRC |= _BV(DDC4);  //LATCH
+  Display_Init();
 
   //PA0 und PA1 als input
   //DDRA = 0x00;

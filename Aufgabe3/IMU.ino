@@ -1,6 +1,5 @@
 // IMU Register laut: https://cdn.sparkfun.com/datasheets/Sensors/IMU/MPU-9150-Register-Map.pdf
 
-double IMU_Offset;  //Speichert den IMU_Offset
 
 void getIMUangle() {
 

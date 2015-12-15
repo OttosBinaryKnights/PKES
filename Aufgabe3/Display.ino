@@ -1,3 +1,10 @@
+void Display_Init(){
+  /* setze die drei Steuerleitungen für das Display als Output (in einem Befehl auch möglich?!)*/
+  DDRC |= _BV(DDC2);  //CLK
+  DDRC |= _BV(DDC3);  //Data
+  DDRC |= _BV(DDC4);  //LATCH
+}
+
 void out(int o) {
   //Startbit
   PORTC |= _BV(PORTC3);
