@@ -46,6 +46,8 @@ boolean neg = false;
 double xangle=0;
 double yangle=0;
 
+byte EngIn[4] = {0,0,0,0};
+
 void waitms(double timer){
   double newtimer;
   newtimer= millis() + newtimer;
@@ -55,6 +57,9 @@ uint16_t adcval;
 uint32_t valSUM;
 int distance;
 int mode = 0;
+
+
+
   
 void setup(){
   /* set die drei Steuerleitungen als Output (in einem Befehl auch möglich?!)*/
@@ -82,6 +87,15 @@ void setup(){
   MPU9150_setupCompass(); 
 
   Serial.println("Setup COMPLETE");
+
+  for(int o= 150; o<256; o=o+2){
+    EngIn[0] = o;
+    EngIn[2] = o;
+    
+    updateOCR();
+    
+    delay(100);
+  }
 }
 
 void loop()
@@ -109,7 +123,7 @@ void loop()
        break;
 
        case 2:
-          getIMUangle();
+          //getIMUangle();
           Serial.print("x-Angle: ");
           Serial.print(xangle);
           Serial.print("  y-Angle: ");
@@ -134,23 +148,28 @@ void loop()
         distance = -95 * log((valSUM - 42.5)/5)+445;
         distance *= 10;
         
-        //if(distance<400 || distance>4000) out(888); //Fehlerausgabe wenn kleiner als
-        //else out(distance);  //Ausgabe ans Display
+        out(distance);  //Ausgabe ans Display
        
-         getIMUangle();
-         
+        // getIMUangle();
+
+         /*
          Serial.print("x-Angle: ");
          Serial.print(xangle);
          Serial.print("  y-Angle: ");
          Serial.println(yangle);
+        */
+         //if(distance > 1000) EngForward(100);
 
-         if(distance > 1000) EngForward(100);
-         else EngTurn(0,100);
+          if(distance<400 || distance>4000) EngForward(0); //Fehlerausgabe wenn kleiner als
+          else if(distance < 1000) {EngTurn(1,200); updateOCR();}
+          else {EngForward(200); updateOCR();}
+        
+         //else EngTurn(0,100);
        break;
     }
     
-    if(millis() % 20000 < 10000) mode=1;
-    else mode = 2;
+    //if(millis() % 20000 < 10000) mode=1;
+    //else mode = 2;
     /* Messung per Switch 1 = Distanz und Switch 2 = Level wechseln */
     //if(PINA & 0b00000001 == 0b00000001){ mode = 1; Serial.println("-----Distanz Messung-----");}
     //if(PINA & 0b00000010 == 0b00000010){ mode = 2; Serial.println("-----Level Messung-----");}

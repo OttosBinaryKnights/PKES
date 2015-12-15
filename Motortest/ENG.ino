@@ -1,10 +1,3 @@
-
-/*
- * MOTOREN
- * Laufen ab ca. 150 langsam an
- * 
- * 
-*/
 void InitEngines()
 {
     DDRH |= ( 1 << 3 );
@@ -24,42 +17,6 @@ void InitEngines()
     TCCR4B = ( 1 << WGM13  ) | ( 1 << WGM12 ) | ( 1 << CS10 );
     OCR4A  = 0; // Power FWD Right
     OCR4B  = 0; // Power RWD Right
-}
-
-void EngStopp(){
-  EngForward(0);
-}
-
-void EngForward(int speed){
-  setEngine(0,speed);
-  setEngine(1,speed);
-}
-
-void EngTurn(int dir,int speed){
-  setEngine(dir,speed);
-  setEngine(1-dir,speed*-1);
-}
-
-//if engineNum==0 -> right
-//   engineNum==1 -> left
-// speed -> value between 0 and 255 
-
-
-void setEngine(boolean engineNum, int speed){
-  Serial.print("setEngine ");
-  Serial.print(engineNum);
-  Serial.print(" = ");
-  Serial.println(speed);
-  
-  if (speed<0){
-    EngIn[0+engineNum*2] = -speed;
-    EngIn[1+engineNum*2] = 0;
-  }
-  else
-  {
-    EngIn[0+engineNum*2] = 0;
-    EngIn[1+engineNum*2] = speed;
-  }
 }
 
 void updateOCR(){
