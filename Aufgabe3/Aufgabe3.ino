@@ -59,11 +59,15 @@ uint16_t adcval;
 uint32_t valSUM;
 int distance;
 int mode = 3;
+int dir;
 
 // IMU Variablne
 double IMU_Offset;  //Speichert den IMU_Offset
 double IMU_Heading = 0;
+double IMU_Heading_Target = 0;//90/36*50;
 unsigned long IMU_IntTimer = 0;
+
+double delta;
 
 void setup() {
   Display_Init();
@@ -130,7 +134,23 @@ void loop()
 
     case 3:
       IMU_calcHeading();
+      Serial.print("Heading: ");
       Serial.println(IMU_Heading);
+
+      delta = IMU_Heading_Target - IMU_Heading;
+
+      if (delta > 0) dir = 1;
+      else dir = 0;
+
+      if (delta > 5000) delta = 5000;
+      //else if(delta < 100) delta = 0;
+      delta /= 50;
+
+      Serial.print("Delta: ");
+      Serial.println(delta);
+
+      //EngTurn(dir, 150+delta);
+
       break;
 
     default:
