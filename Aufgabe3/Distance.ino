@@ -64,4 +64,5 @@ int getDistance(boolean sens){
      valSUM = valSUM / 250;
      return calcGP2D12047(valSUM);
    }
+}
 
