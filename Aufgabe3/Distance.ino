@@ -35,3 +35,33 @@ int calcGP2D12047(int val) {
   return dist;
 }
 
+int calc2Y0A2121(int val){
+  // Umrechnung durchgeführ für GP2D12047
+  //−95×LN((schwarze Oberfläche '406,480814729724'−42,5)÷5)+445
+        int dist = -171 * log((val - 42.5)/5)+842;
+        dist *= 10;
+  return dist;
+}
+
+//sens==0 -> GP2D12047
+//sens==1 -> 2Y0A2121
+int getDistance(boolean sens){
+  if(sens){
+    valSUM=0;
+    for(int i=0; i<250; i++)
+      {
+        adcval = ADC_Read(1);  // Kanal 0
+        valSUM += adcval;
+       }
+     valSUM = valSUM / 250;
+     return calc2Y0A2121(valSUM);
+   } else {
+    for(int i=0; i<250; i++)
+          {
+            adcval = ADC_Read(0);  // Kanal 0
+            valSUM += adcval;
+          }
+     valSUM = valSUM / 250;
+     return calcGP2D12047(valSUM);
+   }
+
