@@ -21,7 +21,7 @@
     * wie fast PWM, zählt aber hoch und runter
     * niedrigere Maximalfrequenz als Fast PWM
 
-
+---
 ## B (ATmega 2560)
 ```
 #include <avr/io.h>
@@ -49,9 +49,23 @@ void main{
   * **Könnte dieser Interrupt von einem anderen Interrupt unterbrochen werden?**
   * **Das Programmfragment ist unvollständig und würde die intendierte Funktion nicht umsetzen. Was fehlt?**
 
+---
 ## 1.
 **Bestimmen Sie aus den folgenden Register-Einstellungen für den AtMega2560 das Tastverhältnis und die Frequenz des PWM-Signals. Stellen Sie die Entwicklung des Counter- Wertes und des Ausgangspins über der Zeit dar. Der Systemtakt beträgt 16 Mhz. Der Controller wurde unmittelbar vor der Ausführung des folgenden Codes resetet.**
+```
+pinMode(13, OUTPUT);
+TCCR0A = BV (COM0A1) | BV (WGM1) | BV (WGM0) ; TCCR0B = BV(CS02) | BV(CS00);
+OCR0A = 180;
+```
 
+```
+pinMode(11, OUTPUT);
+TCCR1A = BV(COM1A1) | BV(WGM11) | BV(WGM10); TCCR1B = BV(CS12);
+OCR1AH = 3;
+OCR1AL = 0;
+```
+
+---
 ## 2.
 **Welche Funktion hat das volatile im vorangegangenen Codefragment?**
 Laut [wikipedia](https://de.wikipedia.org/wiki/Volatile_(Informatik)):
@@ -59,7 +73,15 @@ Laut [wikipedia](https://de.wikipedia.org/wiki/Volatile_(Informatik)):
 * Wer kann sich jederzeit ändern (andere Prozesse, Threads, ext. Hardware) -> in diesem Fall interrupt!
 * Compiler verzichtet auf Funktion beeinschränkende Optimierung
 
+---
 ## 3.
+**Gegeben sei die in der folgenden Abbildung gezeigte Antriebseinheit eines mobilen Ro- boters.**
+![Abbildung](Abbildung1.png)
+*Die für die Odometrie wichtigen Paramter sind dabei:
+* A Auflösung des Inkrementalgebers
+* i Übersetzung $n_{gear}/n_{motor}$
+* D nomineller Raddurchmesser*
+
 **Leiten Sie aus dem gegeben Schema den Faktor $k_c$ her, der Verhältnis zwischen zurückgelegtem Weg $\Delta s$ und der resultierenden Zahl der Odometrieimpulse n bestimmt.**
 
 $k_c = \frac{\Delta s}{n} =$
@@ -73,6 +95,7 @@ $$ i = n_{Rad} / n_{Motor}$$
 
 $k_c = \frac{D * \pi}{A*i}$
 
+---
 ## 4.
 **Bei einem sogenannten differenziellen Aufbau, den Sie vom Roboter aus den U ̈bungen kennen, sind zwei der oben genannten Antriebseinheiten entgegengesetzt auf einer Line angeordnet. Der Abstand b zwischen den Aufstandsfla ̈chen der Ra ̈der betra ̈gt 14,5 cm. Daneben gilt D = 5cm, A = 120 und i = 1/20. Es werden am linken Rad 2300 und am rechten 3900 Ticks geza ̈hlt.
 Wie hat sich die Position des Roboters (∆x, ∆y) und seine Orientierung ∆θ vera ̈ndert?**
@@ -105,11 +128,15 @@ $\Delta x = sin(\beta) * s = 19,92cm$
 
 $\Delta x = cos(\beta) * s = 0,79 cm$
 
+---
 ## 5.
-**Die den Sensorsystemen zur Umgebungswahrnehmung nachgeordneten Strukturen zur Entscheidungsfindung lassen sich in zwei grundsa ̈tzliche Entwu ̈rfe - die Weltmodellidee und den verhaltensbasierten Ansatz - unterteilen. Recherchieren Sie beide Systeme und vergleichen Sie diese anhand von Beispielen.**
+**Die den Sensorsystemen zur Umgebungswahrnehmung nachgeordneten Strukturen zur Entscheidungsfindung lassen sich in zwei grundsätzliche Entwürfe - die Weltmodellidee und den verhaltensbasierten Ansatz - unterteilen. Recherchieren Sie beide Systeme und vergleichen Sie diese anhand von Beispielen.**
 
+---
 ## 6.
+**Sie betreuen einen Fachinformatiker im ersten Lehrjahr. Er hat in Ihrem Auftrag einen Messwerterfassung und einen gleitenden Mittelwertfilter (y = 1/3 · (xn + xn−1 + xn−2 )) entworfen. Stolz erklärt er, das Nyqist-Theorem berücksichtigt zu haben, trotzdem sehe das Ergebnis ”komisch“ aus. Helfen Sie Ihm.**
 
+---
 ## 7.
 **Sie wollen aus den Messdaten eines GP2Dxxx Entfernungssensors Ausreißer herausfiltern und die Daten glätten. Welche Methoden könnten zum Einsatz kommen und wie lassen sich diese auf eingebetteten Systemen ohne ALU effektiv umsetzen?**
 
@@ -120,4 +147,11 @@ $\Delta x = cos(\beta) * s = 0,79 cm$
 
   in Array sortieren und mittleres Element nehmen (heißt das Median?!)
 
+---
 ## 8.
+**Ermitteln Sie für die folgende Strecke die Einstellparameter eines P-Reglers nach dem Verfahren von Ziegler-Nichols. Dabei können Sie grafisch oder analytisch vorgehen.**
+![Abbildung](Abbildung2.png)
+**Die Sprungantwort des in der folgenden Abbildung dargestellten Systems entspricht einem $PT_3-Glied$ und lässt mit der Gleichung**
+![Gleichung](Gleichung.png)
+**beschreiben.**
+![Abbildung](Abbildung3.png)
