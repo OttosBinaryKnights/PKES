@@ -60,6 +60,36 @@ $$ i = n_{Rad} / n_{Motor}$$
 $k_c = \frac{D * \pi}{A*i}$
 
 ## 4.
+**Bei einem sogenannten differenziellen Aufbau, den Sie vom Roboter aus den U ̈bungen kennen, sind zwei der oben genannten Antriebseinheiten entgegengesetzt auf einer Line angeordnet. Der Abstand b zwischen den Aufstandsfla ̈chen der Ra ̈der betra ̈gt 14,5 cm. Daneben gilt D = 5cm, A = 120 und i = 1/20. Es werden am linken Rad 2300 und am rechten 3900 Ticks geza ̈hlt.
+Wie hat sich die Position des Roboters (∆x, ∆y) und seine Orientierung ∆θ vera ̈ndert?**
+
+Strecke linkes Rad:
+$d_L = 230/12 * 1/20 * \pi * 5cm \approx 15.05 cm$
+
+rechtes Rad
+$d_R = 32.5 * 1/20 * \pi * 5cm \approx 25.53 cm$
+
+Radius $r$ von Kurvenmittelpunkt zum linken Rad
+
+I) $\frac\theta{360} 2 \pi r = 15.05cm$
+
+II) $\frac\theta{360} 2 \pi (r+14.5cm) = 25.53cm$
+
+I) in II) eingesetzt und aufgelöst:
+
+$\Rightarrow  r=\frac{15.05 * 14.5}{25.53 - 15.05} cm \approx 21.23 cm$
+
+r wieder in I):
+
+$\Rightarrow \Delta \theta \approx 40.62$°
+
+$$s = 19.944$$
+
+$\beta = 90-\frac{180-\theta}{2} = 20.31$
+
+$\Delta x = sin(\beta) * s = 19,92cm$
+
+$\Delta x = cos(\beta) * s = 0,79 cm$
 
 ## 5.
 **Die den Sensorsystemen zur Umgebungswahrnehmung nachgeordneten Strukturen zur Entscheidungsfindung lassen sich in zwei grundsa ̈tzliche Entwu ̈rfe - die Weltmodellidee und den verhaltensbasierten Ansatz - unterteilen. Recherchieren Sie beide Systeme und vergleichen Sie diese anhand von Beispielen.**
