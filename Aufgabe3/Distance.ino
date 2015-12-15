@@ -26,3 +26,12 @@ uint16_t ADC_Read( uint8_t channel )
   }
   return ADCW;                    // ADC auslesen und zurückgeben
 }
+
+int calcGP2D12047(int val){
+  // Umrechnung durchgeführ für GP2D12047
+  //−95×LN((schwarze Oberfläche '406,480814729724'−42,5)÷5)+445
+        int dist = -95 * log((val - 42.5)/5)+445;
+        dist *= 10;
+  return dist;
+}
+
