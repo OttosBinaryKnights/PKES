@@ -60,13 +60,13 @@ void waitms(double timer) {
 uint16_t adcval;
 uint32_t valSUM;
 int distance;
-int mode = 4;
+int mode = 3;
 int dir;
 
 // IMU Variablne
 double IMU_Offset;  //Speichert den IMU_Offset
 double IMU_Heading = 0;
-double IMU_Heading_Target = 540;//90/36*50;
+double IMU_Heading_Target = 0;//90/36*50;
 unsigned long IMU_IntTimer = 0;
 
 double delta;
@@ -140,7 +140,8 @@ void loop()
     case 3:
       
       if (Serial.available()){
-        Serial.print("neues Headin: ");
+        IMU_Heading_Target = Serial.parseInt();
+        Serial.print("neues Heading: ");
         Serial.println(IMU_Heading_Target);
       }
 
