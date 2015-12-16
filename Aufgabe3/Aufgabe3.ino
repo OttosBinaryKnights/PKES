@@ -178,39 +178,14 @@ void loop()
       else if (delta < -3) EngTurn(0, 145);
       else EngStopp();
 
-
       break;
     default:
-      /*
-      valSUM = 0;
-      for (int i = 0; i < 100; i++)
-      {
-        adcval = ADC_Read(0);  // Kanal 0
-        valSUM += adcval;
-      }
-      valSUM = valSUM / 100;
-
-      // Ausgabe des Messwerts
-      Serial.println(valSUM);
-
-      // Umrechnung durchgeführ für GP2D12047
-      //−95×LN((schwarze Oberfläche '406,480814729724'−42,5)÷5)+445
-      distance = -95 * log((valSUM - 42.5) / 5) + 445;
-      */
       distance = getDistance2(SEN_GP2D12047, 0);
       //distance *= 10;
 
       out(distance);  //Ausgabe ans Display
       Serial.println(distance);
 
-      // getIMUangle();
-
-      /*
-      Serial.print("x-Angle: ");
-      Serial.print(xangle);
-      Serial.print("  y-Angle: ");
-      Serial.println(yangle);
-      */
 
       // Fahrverhalten
       if (distance < 400 || distance > 4000) EngForward(150);
@@ -226,10 +201,4 @@ void loop()
 
       break;
   }
-
-  //if(millis() % 20000 < 10000) mode=1;
-  //else mode = 2;
-  /* Messung per Switch 1 = Distanz und Switch 2 = Level wechseln */
-  //if(PINA & 0b00000001 == 0b00000001){ mode = 1; Serial.println("-----Distanz Messung-----");}
-  //if(PINA & 0b00000010 == 0b00000010){ mode = 2; Serial.println("-----Level Messung-----");}
 }
