@@ -150,6 +150,15 @@ Ergebnis nicht plausibel müssten ca. gleich sein bei 40 GRad eines Kreises!!!
 ## 5.
 **Die den Sensorsystemen zur Umgebungswahrnehmung nachgeordneten Strukturen zur Entscheidungsfindung lassen sich in zwei grundsätzliche Entwürfe - die Weltmodellidee und den verhaltensbasierten Ansatz - unterteilen. Recherchieren Sie beide Systeme und vergleichen Sie diese anhand von Beispielen.**
 
+Weltmodell:
+ * Speichermodell des bisher gemessenen Raumes.
+ * Plane anhand des Modells den Weg
+
+
+verhaltensbasierter Ansatz:
+ * keine Ahnung von Umgebung. Handelt reaktiv
+ (wenn er anstößt)
+
 ---
 ## 6.
 **Sie betreuen einen Fachinformatiker im ersten Lehrjahr. Er hat in Ihrem Auftrag einen Messwerterfassung und einen gleitenden Mittelwertfilter (y = 1/3 · (xn + xn−1 + xn−2 )) entworfen. Stolz erklärt er, das Nyqist-Theorem berücksichtigt zu haben, trotzdem sehe das Ergebnis ”komisch“ aus. Helfen Sie Ihm.**
