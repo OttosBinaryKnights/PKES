@@ -46,15 +46,22 @@ void main{
 }
 ```
   * **Welcher Interrupttyp wird mit der oben skizzierten Methode bedient? An welcher Stelle steht er in der Interruptvektortabelle?**
-    External Interrupt (Pinlevel wird überwacht), hier auf die Detektion einer steigenden Flanke (ISC00 und ISC01 sind gesetzt, laut Datenblatt ist das die Config für steigende Flanken). Der Interrupt steht an Platz zwei, direkt hinter dem RESET-Interrupt
+
+    External Interrupt (Pinlevel wird überwacht),
+
+    hier auf die Detektion einer steigenden Flanke (ISC00 und ISC01 sind gesetzt, laut Datenblatt ist das die Config für steigende Flanken). Der Interrupt steht an Platz zwei, direkt hinter dem RESET-Interrupt
   * **Könnte dieser Interrupt von einem anderen Interrupt unterbrochen werden?**
-  Laut Internet(TM) werden Interrupts beim Sprung in die Interupt-Routine automatisch deaktiviert. Atmel-Doku:
-    * Once the CPU enters the ISR, the global interrupt enable bit (I-bit) in SREG will
-    * be cleared so that all other interrupts are disabled. In order to use nested interrupts,
-    * the I-bit has to be set by software when the CPU enters an ISR.
-    Da sei() nicht noch einmal aufgerufen wird, sollte der Interrupt nicht unterbrochen werden können.
+
+  ja, nur vom Reset Interrupts
+
+  (Laut Vektortabelle höherwertig) ``` 002 ```
+
   * **Das Programmfragment ist unvollständig und würde die intendierte Funktion nicht umsetzen. Was fehlt?**
-    Würde zur letzten Frage sagen, dass die Interrupts nicht eingeschaltet werden (sei()).
+
+  Interrupts nicht eingeschaltet?
+  angeblich: SREG auf stelle i
+
+
 ---
 ## 1.
 **Bestimmen Sie aus den folgenden Register-Einstellungen für den AtMega2560 das Tastverhältnis und die Frequenz des PWM-Signals. Stellen Sie die Entwicklung des Counter- Wertes und des Ausgangspins über der Zeit dar. Der Systemtakt beträgt 16 Mhz. Der Controller wurde unmittelbar vor der Ausführung des folgenden Codes resetet.**
