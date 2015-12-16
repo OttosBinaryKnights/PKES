@@ -156,8 +156,13 @@ void loop()
       break;
 
     case 4:
-      serialRead();
 
+      Serial.println("Eingabe Winkel:");
+      while (!Serial.available()){}
+      IMU_Heading_Target = Serial.parseInt();
+
+      Serial.print("Winkel: ");
+      Serial.println(IMU_Heading_Target);
     default:
       /*
       valSUM = 0;
