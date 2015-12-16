@@ -155,6 +155,7 @@ void loop()
 
     case 4:
       serialRead();
+    break;
 
     default:
       /*
