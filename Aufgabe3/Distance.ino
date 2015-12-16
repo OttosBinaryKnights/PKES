@@ -35,32 +35,53 @@ int calcGP2D12047(int val) {
   return dist;
 }
 
-int calc2Y0A2121(int val){
+int calc2Y0A2121(int val) {
   // Umrechnung durchgeführ für Y0A2121
-        int dist = -171 * log((val - 42.5)/5)+842;
-        dist *= 10;
+  int dist = -171 * log((val - 42.5) / 5) + 842;
+  dist *= 10;
   return dist;
 }
 
 //sens==0 -> GP2D12047
 //sens==1 -> 2Y0A2121
-int getDistance(boolean sens){
-  if(sens){
-    valSUM=0;
-    for(int i=0; i<250; i++)
-      {
-        adcval = ADC_Read(1);  // Kanal 0
-        valSUM += adcval;
-       }
-     valSUM = valSUM / 250;
-     return calc2Y0A2121(valSUM);
-   } else {
-    for(int i=0; i<250; i++)
-          {
-            adcval = ADC_Read(0);  // Kanal 0
-            valSUM += adcval;
-          }
-     valSUM = valSUM / 250;
-     return calcGP2D12047(valSUM);
-   }
+
+
+int getDistance2(int sens, int ch) {
+  valSUM = 0;
+  for (int i = 0; i < 250; i++)
+  {
+    adcval = ADC_Read(ch);  // Kanal 0
+    valSUM += adcval;
+  }
+  valSUM = valSUM / 250;
+
+  switch (sens) {
+    case 1:
+      return calc2Y0A2121(valSUM);
+    default:
+    case 0:
+      return calcGP2D12047(valSUM);
+      break;
+  }
+}
+
+int getDistance(boolean sens) {
+  if (sens) {
+    valSUM = 0;
+    for (int i = 0; i < 250; i++)
+    {
+      adcval = ADC_Read(1);  // Kanal 0
+      valSUM += adcval;
+    }
+    valSUM = valSUM / 250;
+    return calc2Y0A2121(valSUM);
+  } else {
+    for (int i = 0; i < 250; i++)
+    {
+      adcval = ADC_Read(0);  // Kanal 0
+      valSUM += adcval;
+    }
+    valSUM = valSUM / 250;
+    return calcGP2D12047(valSUM);
+  }
 }
