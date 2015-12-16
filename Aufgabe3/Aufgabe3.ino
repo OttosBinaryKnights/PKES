@@ -45,6 +45,8 @@ int dez = 0;
 boolean neg = false;
 double xangle = 0;
 double yangle = 0;
+String inputString = "";
+boolean stringComplete = false;
 
 byte EngIn[4] = {0, 0, 0, 0};
 
@@ -58,7 +60,7 @@ void waitms(double timer) {
 uint16_t adcval;
 uint32_t valSUM;
 int distance;
-int mode = 3;
+int mode = 4;
 int dir;
 
 // IMU Variablne
@@ -100,6 +102,8 @@ void setup() {
   Serial.println("Setup COMPLETE");
 
   updateOCR();
+
+  inputString.reserve(200);
 }
 
 void loop()
@@ -148,6 +152,9 @@ void loop()
       Serial.print("Delta: ");
       Serial.println(delta);
       break;
+
+    case 4:
+      serialRead();
 
     default:
       /*
