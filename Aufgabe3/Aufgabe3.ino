@@ -67,7 +67,7 @@ const int SEN_GP2D12047 = 0;
 const int SEN_2Y0A2121 = 1;
 
 
-int mode = 0;
+int mode = 3;
 int dir;
 
 // IMU Variablne
@@ -111,43 +111,40 @@ void setup() {
   updateOCR();
 
   inputString.reserve(200);
+
+  Serial.println("Gebe einen Winkel ein (Fahren mit 42):");
 }
 
 void loop()
 {
   if (Serial.available()) {
     int input = Serial.parseInt();
-    if (input !=42){
-      IMU_Heading_Target = Serial.parseInt();
+    if (input != 42){
+      mode = 3;
+      IMU_Heading_Target = input;
     }
     else{
       mode = 0;
     } 
-    Serial.print("neues Heading: ");
+    Serial.print("Drehe von aktuell ");
+    Serial.print(IMU_Heading);
+    Serial.print(" auf neu: ");
     Serial.println(IMU_Heading_Target);
   }
 
+  IMU_calcHeading();
+
   switch (mode) {
     case 1:
-      /*
-      valSUM = 0;
-      for (int i = 0; i < 250; i++)
-      {
-        adcval = ADC_Read(0);  // Kanal 0
-        valSUM += adcval;
-      }
-      valSUM = valSUM / 250;
-
-      // Ausgabe des Messwerts
-      Serial.println(valSUM);
-      */
-      distance = getDistance(false);
+      //Aufgabe 2: Entfernungsmesser
+      distance = getDistance2(SEN_GP2D12047, 0);
 
       if (distance < 400 || distance > 4000) out(888); //Fehlerausgabe wenn kleiner als
       else out(distance);  //Ausgabe ans Display
       break;
 
     case 2:
+      //Aufgabe 2: Wasserwaage
       //getIMUangle();
       Serial.print("x-Angle: ");
       Serial.print(xangle);
@@ -157,12 +154,7 @@ void loop()
       break;
 
     case 3:
-
-
-
-
-
-      IMU_calcHeading();
+      //Aufgabe 3: Winkel anfahren (Meggie)
       out(IMU_Heading * 100);
       /*
       Serial.print("Heading: ");
@@ -180,11 +172,12 @@ void loop()
 
       break;
     default:
+      // Aufgabe 3a: Kollisionsfrei fahren (Meggie)
       distance = getDistance2(SEN_GP2D12047, 0);
       //distance *= 10;
 
       out(distance);  //Ausgabe ans Display
-      Serial.println(distance);
+      //Serial.println(distance);
 
 
       // Fahrverhalten
