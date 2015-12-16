@@ -164,6 +164,9 @@ verhaltensbasierter Ansatz:
 **Sie betreuen einen Fachinformatiker im ersten Lehrjahr. Er hat in Ihrem Auftrag einen Messwerterfassung und einen gleitenden Mittelwertfilter (y = 1/3 · (xn + xn−1 + xn−2 )) entworfen. Stolz erklärt er, das Nyqist-Theorem berücksichtigt zu haben, trotzdem sehe das Ergebnis ”komisch“ aus. Helfen Sie Ihm.**
 ![Abbildung](Abbildung2.png)
 
+Wegen des Mittelwertfilters wird der Wert verfälscht
+-> Spitzen werden rausgefiltert
+
 ---
 ## 7.
 **Sie wollen aus den Messdaten eines GP2Dxxx Entfernungssensors Ausreißer herausfiltern und die Daten glätten. Welche Methoden könnten zum Einsatz kommen und wie lassen sich diese auf eingebetteten Systemen ohne ALU effektiv umsetzen?**
