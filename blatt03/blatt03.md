@@ -156,15 +156,16 @@ Ergebnis nicht plausibel müssten ca. gleich sein bei 40 GRad eines Kreises!!!
 ## 7.
 **Sie wollen aus den Messdaten eines GP2Dxxx Entfernungssensors Ausreißer herausfiltern und die Daten glätten. Welche Methoden könnten zum Einsatz kommen und wie lassen sich diese auf eingebetteten Systemen ohne ALU effektiv umsetzen?**
 
-  Durchschnitt bilden?
 
   oder elektronisch glätten: Kondensator!
+  durchschnitt
+  Medianfilter
 
-
-  *Lösung ohne ALU:*
+  ohne ALU:
   kein Float!
+  Durchschnitt bilden nicht möglich
 
-  in Array sortieren und mittleres Element nehmen (heißt das Medianfilter)
+  vll in Array sortieren und mittleres Element nehmen (heißt das Medianfilter) Vergleichsoperator nicht in ALU
 
 ---
 ## 8.
