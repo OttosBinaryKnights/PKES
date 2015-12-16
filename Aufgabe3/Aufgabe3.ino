@@ -57,10 +57,17 @@ void waitms(double timer) {
   newtimer = millis() + newtimer;
   while (millis() < newtimer);
 }
+
+// Distance Variablen
 uint16_t adcval;
 uint32_t valSUM;
 int distance;
-int mode = 3;
+//Konstanten für Sensorauswahl
+const int SEN_GP2D12047 = 0;
+const int SEN_2Y0A2121 = 1;
+
+
+int mode = 0;
 int dir;
 
 // IMU Variablne
@@ -108,6 +115,18 @@ void setup() {
 
 void loop()
 {
+  if (Serial.available()) {
+    int input = Serial.parseInt();
+    if (input !=42){
+      IMU_Heading_Target = Serial.parseInt();
+    }
+    else{
+      mode = 0;
+    } 
+    Serial.print("neues Heading: ");
+    Serial.println(IMU_Heading_Target);
+  }
+
   switch (mode) {
     case 1:
       /*
@@ -138,41 +157,29 @@ void loop()
       break;
 
     case 3:
-      
-      if (Serial.available()){
-        IMU_Heading_Target = Serial.parseInt();
-        Serial.print("neues Heading: ");
-        Serial.println(IMU_Heading_Target);
-      }
 
-      
-      
+
+
+
+
       IMU_calcHeading();
-      out(IMU_Heading*100);
+      out(IMU_Heading * 100);
+      /*
       Serial.print("Heading: ");
       Serial.print(IMU_Heading);
       Serial.print(" - Delta: ");
-      Serial.println(delta);
+      Serial.println(delta);*/
 
       delta = IMU_Heading_Target - IMU_Heading;
 
       if (delta > 10) EngTurn(1, 154);
-      else if (delta<-10) EngTurn(0, 154);
+      else if (delta < -10) EngTurn(0, 154);
       else if (delta > 3) EngTurn(1, 145);
-      else if (delta<-3) EngTurn(0, 145);
+      else if (delta < -3) EngTurn(0, 145);
       else EngStopp();
 
-      
+
       break;
-
-    case 4:
-
-      Serial.println("Eingabe Winkel:");
-      while (!Serial.available()){}
-      IMU_Heading_Target = Serial.parseInt();
-
-      Serial.print("Winkel: ");
-      Serial.println(IMU_Heading_Target);
     default:
       /*
       valSUM = 0;
@@ -190,10 +197,11 @@ void loop()
       //−95×LN((schwarze Oberfläche '406,480814729724'−42,5)÷5)+445
       distance = -95 * log((valSUM - 42.5) / 5) + 445;
       */
-      distance = getDistance(false);
-      distance *= 10;
+      distance = getDistance2(SEN_GP2D12047, 0);
+      //distance *= 10;
 
       out(distance);  //Ausgabe ans Display
+      Serial.println(distance);
 
       // getIMUangle();
 
