@@ -48,10 +48,10 @@ void EngTurn(int dir, int speed) {
 
 
 void setEngine(boolean engineNum, int speed) {
-  Serial.print("setEngine ");
+  /*Serial.print("setEngine ");
   Serial.print(engineNum);
   Serial.print(" = ");
-  Serial.println(speed);
+  Serial.println(speed);*/
 
   if (speed < 0) {
     EngIn[0 + engineNum * 2] = 0;
