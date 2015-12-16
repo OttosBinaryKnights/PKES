@@ -99,7 +99,7 @@ $$n = A$$
 Übertragungsverhältnis i:
 $$ i = n_{Rad} / n_{Motor}$$
 
-$k_c = \frac{D * \pi}{A*i}$
+$k_c = \frac{D * \pi * i}{A}$
 
 ---
 ## 4.
