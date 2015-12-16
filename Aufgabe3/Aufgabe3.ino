@@ -66,7 +66,7 @@ int dir;
 // IMU Variablne
 double IMU_Offset;  //Speichert den IMU_Offset
 double IMU_Heading = 0;
-double IMU_Heading_Target = 90;//90/36*50;
+double IMU_Heading_Target = 540;//90/36*50;
 unsigned long IMU_IntTimer = 0;
 
 double delta;
@@ -138,25 +138,45 @@ void loop()
       break;
 
     case 3:
+      
+      if (Serial.available()){
+        Serial.print("neues Headin: ");
+        Serial.println(IMU_Heading_Target);
+      }
+
+      
+      
       IMU_calcHeading();
       out(IMU_Heading*100);
       Serial.print("Heading: ");
-      Serial.println(IMU_Heading);
+      Serial.print(IMU_Heading);
+      Serial.print(" - Delta: ");
+      Serial.println(delta);
 
       delta = IMU_Heading_Target - IMU_Heading;
 
-      if (delta > 5) EngTurn(1, 150);
-      else if (delta<-5) EngTurn(0, 150);
+      if (delta > 10) EngTurn(1, 154);
+      else if (delta<-10) EngTurn(0, 154);
+      else if (delta > 3) EngTurn(1, 145);
+      else if (delta<-3) EngTurn(0, 145);
       else EngStopp();
 
-      Serial.print("Delta: ");
-      Serial.println(delta);
+      
       break;
 
     case 4:
+<<<<<<< HEAD
       serialRead();
     break;
+=======
+>>>>>>> origin/master
 
+      Serial.println("Eingabe Winkel:");
+      while (!Serial.available()){}
+      IMU_Heading_Target = Serial.parseInt();
+
+      Serial.print("Winkel: ");
+      Serial.println(IMU_Heading_Target);
     default:
       /*
       valSUM = 0;

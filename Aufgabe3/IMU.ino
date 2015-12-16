@@ -100,7 +100,7 @@ double IMU_getOffset() {
 void IMU_calcHeading() {
   // Erste Messung
   if (IMU_IntTimer != 0){
-    IMU_Heading += ((double) micros() - IMU_IntTimer) / 1000000000 * 9 * (MPU9150_readSensor(MPU9150_GYRO_ZOUT_L, MPU9150_GYRO_ZOUT_H) - IMU_Offset);
+    IMU_Heading += ((double) micros() - IMU_IntTimer) / 1000000000 * 7.8 * (MPU9150_readSensor(MPU9150_GYRO_ZOUT_L, MPU9150_GYRO_ZOUT_H) - IMU_Offset);
   }
   IMU_IntTimer = micros();
 }

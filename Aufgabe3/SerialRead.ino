@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 void serialRead(){
   if (Serial.available()) {
     int inByte = Serial.read(); 
@@ -8,3 +9,6 @@ void serialRead(){
 
 
 
+=======
+
+>>>>>>> origin/master

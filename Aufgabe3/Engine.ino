@@ -70,10 +70,10 @@ void updateOCR() {
   OCR1B  = EngIn[1];
   OCR4A  = EngIn[2];
   OCR4B  = EngIn[3];
-
+/*
   for (int i = 0; i < 4; i++) {
     Serial.print(EngIn[i]);
     Serial.print("/");
   }
-  Serial.println();
+  Serial.println();*/
 }

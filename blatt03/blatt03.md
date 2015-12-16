@@ -46,9 +46,15 @@ void main{
 }
 ```
   * **Welcher Interrupttyp wird mit der oben skizzierten Methode bedient? An welcher Stelle steht er in der Interruptvektortabelle?**
+    External Interrupt (Pinlevel wird überwacht), hier auf die Detektion einer steigenden Flanke (ISC00 und ISC01 sind gesetzt, laut Datenblatt ist das die Config für steigende Flanken). Der Interrupt steht an Platz zwei, direkt hinter dem RESET-Interrupt
   * **Könnte dieser Interrupt von einem anderen Interrupt unterbrochen werden?**
+  Laut Internet(TM) werden Interrupts beim Sprung in die Interupt-Routine automatisch deaktiviert. Atmel-Doku:
+    * Once the CPU enters the ISR, the global interrupt enable bit (I-bit) in SREG will
+    * be cleared so that all other interrupts are disabled. In order to use nested interrupts,
+    * the I-bit has to be set by software when the CPU enters an ISR.
+    Da sei() nicht noch einmal aufgerufen wird, sollte der Interrupt nicht unterbrochen werden können.
   * **Das Programmfragment ist unvollständig und würde die intendierte Funktion nicht umsetzen. Was fehlt?**
-
+    Würde zur letzten Frage sagen, dass die Interrupts nicht eingeschaltet werden (sei()).
 ---
 ## 1.
 **Bestimmen Sie aus den folgenden Register-Einstellungen für den AtMega2560 das Tastverhältnis und die Frequenz des PWM-Signals. Stellen Sie die Entwicklung des Counter- Wertes und des Ausgangspins über der Zeit dar. Der Systemtakt beträgt 16 Mhz. Der Controller wurde unmittelbar vor der Ausführung des folgenden Codes resetet.**
@@ -128,6 +134,8 @@ $\Delta x = sin(\beta) * s = 19,92cm$
 
 $\Delta x = cos(\beta) * s = 0,79 cm$
 
+Ergebnis nicht plausibel müssten ca. gleich sein bei 40 GRad eines Kreises!!!
+
 ---
 ## 5.
 **Die den Sensorsystemen zur Umgebungswahrnehmung nachgeordneten Strukturen zur Entscheidungsfindung lassen sich in zwei grundsätzliche Entwürfe - die Weltmodellidee und den verhaltensbasierten Ansatz - unterteilen. Recherchieren Sie beide Systeme und vergleichen Sie diese anhand von Beispielen.**
@@ -142,10 +150,13 @@ $\Delta x = cos(\beta) * s = 0,79 cm$
 
   Durchschnitt bilden?
 
+  oder elektronisch glätten: Kondensator!
+
 
   *Lösung ohne ALU:*
+  kein Float!
 
-  in Array sortieren und mittleres Element nehmen (heißt das Median?!)
+  in Array sortieren und mittleres Element nehmen (heißt das Medianfilter)
 
 ---
 ## 8.
