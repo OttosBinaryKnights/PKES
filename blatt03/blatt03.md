@@ -162,13 +162,14 @@ verhaltensbasierter Ansatz:
 ---
 ## 6.
 **Sie betreuen einen Fachinformatiker im ersten Lehrjahr. Er hat in Ihrem Auftrag einen Messwerterfassung und einen gleitenden Mittelwertfilter (y = 1/3 · (xn + xn−1 + xn−2 )) entworfen. Stolz erklärt er, das Nyqist-Theorem berücksichtigt zu haben, trotzdem sehe das Ergebnis ”komisch“ aus. Helfen Sie Ihm.**
+![Abbildung](Abbildung2.png)
 
 ---
 ## 7.
 **Sie wollen aus den Messdaten eines GP2Dxxx Entfernungssensors Ausreißer herausfiltern und die Daten glätten. Welche Methoden könnten zum Einsatz kommen und wie lassen sich diese auf eingebetteten Systemen ohne ALU effektiv umsetzen?**
 
 
-  oder elektronisch glätten: Kondensator!
+  oder elektronisch glätten: Kondensator! (= Tiefpassfilter)
   durchschnitt
   Medianfilter
 
@@ -181,7 +182,7 @@ verhaltensbasierter Ansatz:
 ---
 ## 8.
 **Ermitteln Sie für die folgende Strecke die Einstellparameter eines P-Reglers nach dem Verfahren von Ziegler-Nichols. Dabei können Sie grafisch oder analytisch vorgehen.**
-![Abbildung](Abbildung2.png)
+
 **Die Sprungantwort des in der folgenden Abbildung dargestellten Systems entspricht einem $PT_3-Glied$ und lässt mit der Gleichung**
 ![Gleichung](Gleichung.png)
 **beschreiben.**
