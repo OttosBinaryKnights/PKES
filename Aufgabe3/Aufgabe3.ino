@@ -138,10 +138,20 @@ void loop()
       break;
 
     case 3:
+      
+      if (Serial.available()){
+        Serial.print("neues Headin: ");
+        Serial.println(IMU_Heading_Target);
+      }
+
+      
+      
       IMU_calcHeading();
       out(IMU_Heading*100);
       Serial.print("Heading: ");
-      Serial.println(IMU_Heading);
+      Serial.print(IMU_Heading);
+      Serial.print(" - Delta: ");
+      Serial.println(delta);
 
       delta = IMU_Heading_Target - IMU_Heading;
 
@@ -151,8 +161,7 @@ void loop()
       else if (delta<-3) EngTurn(0, 145);
       else EngStopp();
 
-      Serial.print("Delta: ");
-      Serial.println(delta);
+      
       break;
 
     case 4:
