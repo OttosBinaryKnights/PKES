@@ -139,8 +139,10 @@ $$s = 19.944$$
 $\beta = 90-\frac{180-\theta}{2} = 20.31$
 
 $\Delta x = sin(\beta) * s = 19,92cm$
+-> sollte 18.5 sein
 
 $\Delta x = cos(\beta) * s = 0,79 cm$
+-> soll 7 sein.
 
 Ergebnis nicht plausibel müssten ca. gleich sein bei 40 GRad eines Kreises!!!
 
