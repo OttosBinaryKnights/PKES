@@ -47,14 +47,13 @@ void main{
 ```
   * **Welcher Interrupttyp wird mit der oben skizzierten Methode bedient? An welcher Stelle steht er in der Interruptvektortabelle?**
 
-    External Interrupt (Pinlevel wird überwacht),
+    External Interrupt (an Stelle 2 in der Tabelle ``` dollar0002 ```),
 
-    hier auf die Detektion einer steigenden Flanke (ISC00 und ISC01 sind gesetzt, laut Datenblatt ist das die Config für steigende Flanken). Der Interrupt steht an Platz zwei, direkt hinter dem RESET-Interrupt
   * **Könnte dieser Interrupt von einem anderen Interrupt unterbrochen werden?**
 
   ja, nur vom Reset Interrupts
 
-  (Laut Vektortabelle höherwertig) ``` 002 ```
+  (Laut Vektortabelle höherwertig)
 
   * **Das Programmfragment ist unvollständig und würde die intendierte Funktion nicht umsetzen. Was fehlt?**
 
@@ -83,8 +82,10 @@ OCR1AL = 0;
 **Welche Funktion hat das volatile im vorangegangenen Codefragment?**
 Laut [wikipedia](https://de.wikipedia.org/wiki/Volatile_(Informatik)):
 * ``volatil`` ist Typqualifikator
-* Wer kann sich jederzeit ändern (andere Prozesse, Threads, ext. Hardware) -> in diesem Fall interrupt!
+* Wert kann sich jederzeit ändern (andere Prozesse, Threads, ext. Hardware im PC) -> AVR durch Interupt!
 * Compiler verzichtet auf Funktion beeinschränkende Optimierung
+
+"Das Counterwert beim Interrupt nicht verloren geht"
 
 ---
 ## 3.
