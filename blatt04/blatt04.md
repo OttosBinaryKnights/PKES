@@ -1,6 +1,6 @@
 # Theoretisches Aufgabenblatt 4
 ## A
-*Welche Eigenschaften sind von besonderer Bedeutung bei der Auswahl eines Scheduling- Verfahrens fu ̈r eingebettete Systeme im Vergleich zu General-Purpose Systemen?*
+*Welche Eigenschaften sind von besonderer Bedeutung bei der Auswahl eines Scheduling- Verfahrens für eingebettete Systeme im Vergleich zu General-Purpose Systemen?*
 
 ---
 ## 1.
@@ -26,7 +26,7 @@
 
 ---
 ## 4.
-*Gegeben seien 3 eingebettete Systeme, welche Eigenschaft sollte der verwendete Sche- duling Algorithmus aufweisen um einen optimalen Systembetrieb zu gewährleisten:*
+*Gegeben seien 3 eingebettete Systeme, welche Eigenschaft sollte der verwendete Scheduling Algorithmus aufweisen um einen optimalen Systembetrieb zu gewährleisten:*
 * *eine Motorsteuereinheit eines Fahrzeugs(ECU)*
 * *eine aktuelle Spielekonsole (z.B.: Playstation 4 oder Xbox One)*
 * *ein Satelliten-Bus (Zentraleinheit eines Satelliten, der alle Komponenten verbindet)*
