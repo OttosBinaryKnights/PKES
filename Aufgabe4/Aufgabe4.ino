@@ -1,26 +1,26 @@
 #include <imu.h>
 
 /*
-Ziel dieser Aufgabe ist die weitere Abstraktion der Motoransteuerung unter 
-Einbeziehung einer Geschwindigkeits und Entfernungsregelung. Dazu ist die 
+Ziel dieser Aufgabe ist die weitere Abstraktion der Motoransteuerung unter
+Einbeziehung einer Geschwindigkeits und Entfernungsregelung. Dazu ist die
 Implementierung einer Interruptbasierten Auswertung der Odometrie notwendig.
 
-Die Odometrie ist auf den interruptfähigen digitalen Pins 15 und 19 angeschlossenen. 
-Konfigurieren Sie mithilfe der avr/interrupt.h die beiden Datenpins so, dass diese 
-bei jedem Flankenwechsel einen Interrupt auslösen. Mit deren Hilfe die Odometrie-Ticks 
-der beiden Räder gezählt werden können. Beachten Sie hierbei die unterschiedliche 
-Konfigurationen von PCINT9 und INT 2 (wie sie auch in der Vorlesung vorgestellt wurden). 
-Erweitern sie Ihren Code so, dass dieser auf vorhandene Motoren-Klassen und/oder 
+Die Odometrie ist auf den interruptfähigen digitalen Pins 15 und 19 angeschlossenen.
+Konfigurieren Sie mithilfe der avr/interrupt.h die beiden Datenpins so, dass diese
+bei jedem Flankenwechsel einen Interrupt auslösen. Mit deren Hilfe die Odometrie-Ticks
+der beiden Räder gezählt werden können. Beachten Sie hierbei die unterschiedliche
+Konfigurationen von PCINT9 und INT 2 (wie sie auch in der Vorlesung vorgestellt wurden).
+Erweitern sie Ihren Code so, dass dieser auf vorhandene Motoren-Klassen und/oder
 Funktionen zugreift und einen Regler implementiert. Der von Ihnen gewählte
-Regelungsmechanismus soll auf Basis der Odometrie-Ticks unterschiedliche 
+Regelungsmechanismus soll auf Basis der Odometrie-Ticks unterschiedliche
 Geschwindigkeitsprofile der Motoren kompensieren.
 
-Darauf aufbauen soll eine Wegstreckenregelung umgesetzt werden, die Distanzen 
-in cm oder Winkel in Grad entgegen nimmt und diese Strecke dann möglichst genau 
-abfährt. Am Ende soll der Roboter drive(50) cm auf dem Tisch zurücklegen, 
+Darauf aufbauen soll eine Wegstreckenregelung umgesetzt werden, die Distanzen
+in cm oder Winkel in Grad entgegen nimmt und diese Strecke dann möglichst genau
+abfährt. Am Ende soll der Roboter drive(50) cm auf dem Tisch zurücklegen,
 sich um rotate(180)° drehen und wieder drive(50) cm fahren, sodass dieser
-wieder zum Ausgangspunkt zurückkommt. Es bleibt den Teams überlassen, ob die 
-Messung der Rotation über die Odometrie oder/und den Gyro umgesetzt wird. 
+wieder zum Ausgangspunkt zurückkommt. Es bleibt den Teams überlassen, ob die
+Messung der Rotation über die Odometrie oder/und den Gyro umgesetzt wird.
  */
 
 // D6 PWM (OC4A), D7 PWM (OC4B)
@@ -45,6 +45,7 @@ double xangle = 0;
 double yangle = 0;
 String inputString = "";
 boolean stringComplete = false;
+String commandList[10];
 
 byte EngIn[4] = {0, 0, 0, 0};
 
@@ -110,20 +111,20 @@ void setup() {
 
   inputString.reserve(200);
 
-  Serial.println("Gebe einen Winkel ein (Fahren mit 42):");
+  textOut();
 }
 
 void loop()
 {
   if (Serial.available()) {
-    int input = Serial.parseInt();
-    if (input != 42){
-      mode = 3;
-      IMU_Heading_Target = input;
+    String input = Serial.readString();
+    if (input.compareTo("42")==0){
+      mode = 0;
+      //IMU_Heading_Target = input;
     }
     else{
       mode = 0;
-    } 
+    }
     Serial.print("Drehe von aktuell ");
     Serial.print(IMU_Heading);
     Serial.print(" auf neu: ");

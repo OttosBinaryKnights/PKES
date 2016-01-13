@@ -19,7 +19,7 @@ void InitEngines()
   OCR1A  = 0; // Power FWD Left
   OCR1B  = 0; // Power RWD Left
 
-  ICR4   = 255; // Set top for timer 4 
+  ICR4   = 255; // Set top for timer 4
   TCCR4A = ( 1 << COM1A1 ) | ( 1 << COM1B1 ) | ( 1 << WGM11 );
   TCCR4B = ( 1 << WGM13  ) | ( 1 << WGM12 ) | ( 1 << CS10 );
   OCR4A  = 0; // Power FWD Right
@@ -76,4 +76,21 @@ void updateOCR() {
     Serial.print("/");
   }
   Serial.println();*/
+}
+
+boolean EngTurn(int angle){
+  IMU_Heading_Target = angle;
+  out(IMU_Heading * 100);
+
+  delta = IMU_Heading_Target - IMU_Heading;
+
+  if (delta > 10) EngTurn(1, 154);
+  else if (delta < -10) EngTurn(0, 154);
+  else if (delta > 3) EngTurn(1, 145);
+  else if (delta < -3) EngTurn(0, 145);
+  else {
+    EngStopp();
+    return true;
+  }
+  return false;
 }
