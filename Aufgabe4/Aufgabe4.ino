@@ -123,7 +123,7 @@ void loop()
       //IMU_Heading_Target = input;
     }
     else{
-      mode = 0;
+      mode = 4;
     }
     Serial.print("Drehe von aktuell ");
     Serial.print(IMU_Heading);
@@ -170,6 +170,16 @@ void loop()
       else EngStopp();
 
       break;
+
+    case 4:
+      manipulateString(input);
+      for(int i=0;i<commandList.length;i++){
+        if(commandList[i]!=""){
+          commandExecute(commandList[i]);
+        }
+      }
+
+    break;
     default:
       // Aufgabe 3a: Kollisionsfrei fahren (Meggie)
       distance = getDistance2(SEN_GP2D12047, 0);

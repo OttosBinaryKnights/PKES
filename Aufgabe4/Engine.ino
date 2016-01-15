@@ -78,16 +78,17 @@ void updateOCR() {
   Serial.println();*/
 }
 
-boolean EngTurn(int angle){
+//dir 0= Links, 1= Rechts
+boolean EngTurn(int dir, int angle){
   IMU_Heading_Target = angle;
   out(IMU_Heading * 100);
 
   delta = IMU_Heading_Target - IMU_Heading;
 
-  if (delta > 10) EngTurn(1, 154);
-  else if (delta < -10) EngTurn(0, 154);
-  else if (delta > 3) EngTurn(1, 145);
-  else if (delta < -3) EngTurn(0, 145);
+  if (delta > 10) EngTurn(dir, 154);
+  else if (delta < -10) EngTurn(-dir, 154);
+  else if (delta > 3) EngTurn(dir, 145);
+  else if (delta < -3) EngTurn(-dir, 145);
   else {
     EngStopp();
     return true;

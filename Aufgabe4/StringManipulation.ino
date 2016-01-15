@@ -14,12 +14,20 @@ void commandExecute(String command){
   if(command[0]=='d'){
     EngForward(155);
   }
-  if(command[0]=='t'){
+  if(command[0]=='r'){
     Serial.println("execute " + command);
 
     int angle=getNumber(command);
 
-    while (!EngTurn(angle));
+    while (!EngTurn(1,angle));
+
+  }
+  if(command[0]=='l'){
+    Serial.println("execute " + command);
+
+    int angle=getNumber(command);
+
+    while (!EngTurn(0,angle));
 
   }
 }
