@@ -42,8 +42,9 @@ $$A=r+\Delta e\leq d$$
 |   2   |      6       |   0   |   10  |
 |   3   |      4       |   10  |   15  |
 
-
-
+Wegen ununterbrechbarer Tasks erfolgt die Umsetzung mittels EDD.
+![Lösung](Aufgabe_3.png)
+Die Menge an Tasks sind bei nicht unterbrechbaren Scheduler nicht planbar. $T_2$ startet und endet erst bei t=6. Somit ist die deadline für $T_1$ bereits überschritten.
 
 ---
 ## 4.
@@ -97,6 +98,10 @@ Rate Monotonic Scheduling (RMS) ist ein Prioritätsscheduling-Verfahren für unt
 [Quelle](https://de.wikipedia.org/wiki/Rate_Monotonic_Scheduling)
 
 ![Lösung](Aufgabe_7.png)
+
+Auslastung:
+$$u= \sum_{i=1}^{n} \frac{\Delta e_i}{\Delta p_i}$$
+$$u=\frac{3}{18}+\frac{2}{18}+\frac{6}{18}=\frac{11}{18}\approx0,61$$
 
 ---
 # 8.
