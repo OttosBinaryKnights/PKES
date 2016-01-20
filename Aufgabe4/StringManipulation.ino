@@ -12,14 +12,23 @@ void manipulateString(String input){
 
 void commandExecute(String command){
   if(command[0]=='d'){
-    EngForward(155);
+    int distance = getNumber(command)
+
+    while (!distanceCompl){
+      Forward(distance);
+    }
+
   }
   if(command[0]=='r'){
     Serial.println("execute " + command);
 
-    int angle=getNumber(command);
+    int angle = getNumber(command);
 
-    while (!EngTurn(1,angle));
+    while (!Turn(1,angle));
+    /*
+    kann probleme geben.
+    delta muss andes sein(360-angle)
+    */
 
   }
   if(command[0]=='l'){
@@ -27,7 +36,7 @@ void commandExecute(String command){
 
     int angle=getNumber(command);
 
-    while (!EngTurn(0,angle));
+    while (!Turn(0,angle)); //angle
 
   }
 }

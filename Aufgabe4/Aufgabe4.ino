@@ -1,3 +1,4 @@
+#include <avr/interrupt.h>
 #include <imu.h>
 
 /*
@@ -50,6 +51,14 @@ String commandList[10];
 byte EngIn[4] = {0, 0, 0, 0};
 
 int m_targetAddress;
+
+//for interrupt handling
+volatile int engLeftTic = 0;
+volatile int engRightTic = 0;
+volatile int setpoint, measured_value, prev_error = 0, integral, lastTime, error, derivative, output, Kp = 17, Ki = 2, Kd = 10;
+int stage = 0;
+
+boolean distanceCompl = false;
 
 void waitms(double timer) {
   double newtimer;
@@ -117,8 +126,8 @@ void setup() {
 void loop()
 {
   if (Serial.available()) {
-    String input = Serial.readString();
-    if (input.compareTo("42")==0){
+    String inputString = Serial.readString();
+    if (inputString.compareTo("42")==0){
       mode = 0;
       //IMU_Heading_Target = input;
     }
@@ -172,8 +181,8 @@ void loop()
       break;
 
     case 4:
-      manipulateString(input);
-      for(int i=0;i<commandList.length;i++){
+      manipulateString(inputString);
+      for(int i=0;i<10;i++){
         if(commandList[i]!=""){
           commandExecute(commandList[i]);
         }

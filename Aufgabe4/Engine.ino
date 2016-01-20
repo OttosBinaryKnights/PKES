@@ -24,6 +24,30 @@ void InitEngines()
   TCCR4B = ( 1 << WGM13  ) | ( 1 << WGM12 ) | ( 1 << CS10 );
   OCR4A  = 0; // Power FWD Right
   OCR4B  = 0; // Power RWD Right
+
+//interrupt init
+  PORTD |= (1<<PD2);
+  PORTJ |= (1<<PJ0);
+  DDRD &= ~(0<<PD2);
+  DDRJ &= ~(0<<PJ0);
+
+//interruptmaskenregister
+  EIMSK |= (1 << INT2);     // Enable external interrupt INT0
+  EICRA |= (1 << ISC20);    // Trigger INT0 on falling edge
+
+  PCICR |= (1 << PCIE1);
+  PCMSK1 |= (1 << PCINT9);
+
+  ADC_Init();
+
+}
+
+ISR(INT2_vect){
+  engRightTic+=1;
+}
+
+ISR(PCINT1_vect){
+  engLeftTic+=1;
 }
 
 void EngStopp() {
@@ -33,6 +57,19 @@ void EngStopp() {
 void EngForward(int speed) {
   setEngine(0, speed);
   setEngine(1, speed);
+}
+
+void Forward(int distance){
+  int tics=getTic(distance);
+  if(engLeftTic>tics){
+    EngStopp();
+    engLeftTic=0;
+    engRightTic=0;
+  } else {
+    setEngine(0,150);
+    setEngine(1,150+pidController());
+  }
+
 }
 
 //dir 0= Links, 1= Rechts
@@ -79,7 +116,7 @@ void updateOCR() {
 }
 
 //dir 0= Links, 1= Rechts
-boolean EngTurn(int dir, int angle){
+boolean Turn(int dir, int angle){
   IMU_Heading_Target = angle;
   out(IMU_Heading * 100);
 
@@ -94,4 +131,8 @@ boolean EngTurn(int dir, int angle){
     return true;
   }
   return false;
+}
+
+int getTic(int distance){
+  return 36/16*distance;
 }

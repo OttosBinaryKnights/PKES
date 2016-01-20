@@ -2,6 +2,16 @@
 ## A
 *Welche Eigenschaften sind von besonderer Bedeutung bei der Auswahl eines Scheduling- Verfahrens für eingebettete Systeme im Vergleich zu General-Purpose Systemen?*
 
+General-Purpose System:
+* Software compatibel
+
+Embedded Systems:
+* Echtzeitfähigkeit
+* Geschwindigkeit, Fairness
+* periodische oder aperiodesche Aufgaben
+* Effizienz, CPU-Auslastung
+* Antwortzeit, Durchsatz (Anz. Tasks/Zeit)
+* max. Verspätung minimieren
 
 
 ---
@@ -31,6 +41,21 @@ $$A=r+\Delta e\leq d$$
 ---
 ## B
 *Definieren sie den Begriff des optimalen Schedulers und nennen Sie die Kriterien einer Planbarkeit (Feasibility).*
+
+optimaler Scheduler:
+* gibt es nicht
+* es können nicht gleichzeitig alle Kriterien (Fairness, Effizienz, Antwortzeit, Durchsatz) optimal eingeplant werden
+* je nachdem welche Kriterien eine Priorität haben sollen, gibt es verschiedene Verfahren
+
+Kriterien einer Planbarkeit:
+* Deadline immer einhalten
+1. alle Zeitbedingungen (einzelner Tasks) einhalten
+2. genügend Ressourcen (Prozessorzeit) vorhanden
+3. keine überlappenden Ausführungszeiten
+
+1+2=notwendig
+
+3= hinreichend
 
 ---
 ## 3.
@@ -101,7 +126,7 @@ Rate Monotonic Scheduling (RMS) ist ein Prioritätsscheduling-Verfahren für unt
 
 Auslastung:
 $$u= \sum_{i=1}^{n} \frac{\Delta e_i}{\Delta p_i}$$
-$$u=\frac{3}{18}+\frac{2}{18}+\frac{6}{18}=\frac{11}{18}\approx0,61$$
+$$u=\frac{3}{18}+\frac{2}{18}+\frac{6}{18}=\frac{13}{18}\approx0,72$$
 
 ---
 # 8.

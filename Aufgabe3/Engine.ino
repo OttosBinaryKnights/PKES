@@ -19,7 +19,7 @@ void InitEngines()
   OCR1A  = 0; // Power FWD Left
   OCR1B  = 0; // Power RWD Left
 
-  ICR4   = 255; // Set top for timer 4 
+  ICR4   = 255; // Set top for timer 4
   TCCR4A = ( 1 << COM1A1 ) | ( 1 << COM1B1 ) | ( 1 << WGM11 );
   TCCR4B = ( 1 << WGM13  ) | ( 1 << WGM12 ) | ( 1 << CS10 );
   OCR4A  = 0; // Power FWD Right
@@ -32,7 +32,7 @@ void EngStopp() {
 
 void EngForward(int speed) {
   setEngine(0, speed);
-  setEngine(1, speed);
+  setEngine(1, speed+pidController());
 }
 
 //dir 0= Links, 1= Rechts
@@ -45,7 +45,6 @@ void EngTurn(int dir, int speed) {
 //if engineNum==0 -> right
 //   engineNum==1 -> left
 // speed -> value between 0 and 255
-
 
 void setEngine(boolean engineNum, int speed) {
   /*Serial.print("setEngine ");
@@ -76,4 +75,20 @@ void updateOCR() {
     Serial.print("/");
   }
   Serial.println();*/
+}
+
+int calcTic(int distance){
+  return 36/16*distance;
+}
+
+int pidController() {
+  long now = millis();
+  long dt = now-lastTime;
+  error = (setpoint - measured_value);
+  //integral = integral + error*dt;
+  derivative = (error - prev_error)/dt;
+  output = Kp*error + Ki*integral + Kd*derivative;
+  prev_error = error;
+  lastTime = now;
+  return output;
 }
