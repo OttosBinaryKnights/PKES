@@ -24,30 +24,6 @@ void InitEngines()
   TCCR4B = ( 1 << WGM13  ) | ( 1 << WGM12 ) | ( 1 << CS10 );
   OCR4A  = 0; // Power FWD Right
   OCR4B  = 0; // Power RWD Right
-
-//interrupt init
-  PORTD |= (1<<PD2);
-  PORTJ |= (1<<PJ0);
-  DDRD &= ~(0<<PD2);
-  DDRJ &= ~(0<<PJ0);
-
-//interruptmaskenregister
-  EIMSK |= (1 << INT2);     // Enable external interrupt INT0
-  EICRA |= (1 << ISC20);    // Trigger INT0 on falling edge
-
-  PCICR |= (1 << PCIE1);
-  PCMSK1 |= (1 << PCINT9);
-
-  ADC_Init();
-
-}
-
-ISR(INT2_vect){
-  engRightTic+=1;
-}
-
-ISR(PCINT1_vect){
-  engLeftTic+=1;
 }
 
 void EngStopp() {
@@ -56,22 +32,7 @@ void EngStopp() {
 
 void EngForward(int speed) {
   setEngine(0, speed);
-  setEngine(1, speed);
-}
-
-void Forward(int distance){
-  int tics=getTic(distance);
-  if(engLeftTic>tics){
-    EngStopp();
-    engLeftTic=0;
-    engRightTic=0;
-    distanceCompl = true;
-  } else {
-    setEngine(0,150);
-    setEngine(1,150+pidController());
-    distanceCompl = false;
-  }
-
+  setEngine(1, speed+pidController());
 }
 
 //dir 0= Links, 1= Rechts
@@ -84,7 +45,6 @@ void EngTurn(int dir, int speed) {
 //if engineNum==0 -> right
 //   engineNum==1 -> left
 // speed -> value between 0 and 255
-
 
 void setEngine(boolean engineNum, int speed) {
   /*Serial.print("setEngine ");
@@ -117,25 +77,7 @@ void updateOCR() {
   Serial.println();*/
 }
 
-//dir 0= Links, 1= Rechts
-boolean Turn(int dir, int angle){
-  IMU_Heading_Target = angle;
-  out(IMU_Heading * 100);
-
-  delta = IMU_Heading_Target - IMU_Heading;
-
-  if (delta > 10) EngTurn(dir, 154);
-  else if (delta < -10) EngTurn(-dir, 154);
-  else if (delta > 3) EngTurn(dir, 145);
-  else if (delta < -3) EngTurn(-dir, 145);
-  else {
-    EngStopp();
-    return true;
-  }
-  return false;
-}
-
-int getTic(int distance){
+int calcTic(int distance){
   return 36/16*distance;
 }
 

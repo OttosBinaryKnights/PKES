@@ -11,34 +11,20 @@ void manipulateString(String input){
   }
 }
 
-void commandExecute(String command){
+int commandExecute(String command){
   if(command[0]=='d'){
-    int distance = getNumber(command);
-
-    while (!distanceCompl){
-      Forward(distance);
-    }
-
+    return 5; //drive forward
   }
   if(command[0]=='r'){
-    Serial.println("execute " + command);
-
-    int angle = getNumber(command);
-
-    while (!Turn(1,angle));
-    /*
-    kann probleme geben.
-    delta muss andes sein(360-angle)
-    */
+    return 6; //turn right
 
   }
   if(command[0]=='l'){
-    Serial.println("execute " + command);
+    return 3; //turn left
 
-    int angle=getNumber(command);
-
-    while (!Turn(0,angle)); //angle
-
+  }
+  if(command == ""){
+    return 7;
   }
 }
 

@@ -1,27 +1,28 @@
-#include <avr/interrupt.h>
 #include <imu.h>
 
 /*
-Ziel dieser Aufgabe ist die weitere Abstraktion der Motoransteuerung unter
-Einbeziehung einer Geschwindigkeits und Entfernungsregelung. Dazu ist die
-Implementierung einer Interruptbasierten Auswertung der Odometrie notwendig.
+ Teilaufgabe 1:
+Implementiert eine einfache Verfahrfunktion für den Roboter, so dass dieser sich kollisionsfrei auf dem Labortisch bewegt. Ihr könnt dazu neben den 2 obligatorischen Distanzsensoren auch die IMU
+(zum Beispiel für spannungsunabhängige Drehbewegungen) verwenden.
+Die Implementierung der Motoransteuerung soll nicht mit den analogWrite()-Funktionen der Arduino Bibliothek erfolgen, sondern allein mit der avrlibc,
+da die Arduino-Bibliothek an dieser Stelle nur sehr eingeschränkte Konfigurationen zulässt. So kann zum Beispiel die Auflösung des Zählers nicht konfiguriert werden. Wertet also zunächst
+das Datenblatt des AVRs aus, um zu ermitteln, welche Timer und welche PWM mit den beiden Motortreiberkanälen verbunden sind.
 
-Die Odometrie ist auf den interruptfähigen digitalen Pins 15 und 19 angeschlossenen.
-Konfigurieren Sie mithilfe der avr/interrupt.h die beiden Datenpins so, dass diese
-bei jedem Flankenwechsel einen Interrupt auslösen. Mit deren Hilfe die Odometrie-Ticks
-der beiden Räder gezählt werden können. Beachten Sie hierbei die unterschiedliche
-Konfigurationen von PCINT9 und INT 2 (wie sie auch in der Vorlesung vorgestellt wurden).
-Erweitern sie Ihren Code so, dass dieser auf vorhandene Motoren-Klassen und/oder
-Funktionen zugreift und einen Regler implementiert. Der von Ihnen gewählte
-Regelungsmechanismus soll auf Basis der Odometrie-Ticks unterschiedliche
-Geschwindigkeitsprofile der Motoren kompensieren.
+Teilaufgabe 2:
+In dieser Teilaufgabe geht es darum, den Roboter mittels des Gyroskops der IMU um einen wählbaren Winkel zu drehen. Dazu ist der Winkel von der seriellen Schnittstelle einzulesen und dann der Roboter zu drehen,
+bis der gewünschte Winkel erreicht ist. Die Werte der IMU sollten gefiltert werden, da der Roboter sich sonst nicht wie erwünscht verhalten wird.
+Bei der Drehung darf der Winkelfehler maximal 10% oder 10° betragen.
+Empfehlung zum Vorgehen beim Verwenden des Gyroskops:
+Beginnt am besten damit, den Offset des Gyroskops für den unbewegten Sensor bestimmen. Zeichnet diesen auf und berechnet den mittleren Offset für euren Sensor.
+Beachtet dass im Sensor ein Low-Pass-Filter aktiviert werden sollte, um das Ergebnis zu stabilisieren, für Details siehe die Datenblätter zur verwendeten IMU. Für verschiedene Filter ergeben sich jeweils
+unterschiedliche Verteilungsfunktionen, wie in der Abbildung dargestellt.
 
-Darauf aufbauen soll eine Wegstreckenregelung umgesetzt werden, die Distanzen
-in cm oder Winkel in Grad entgegen nimmt und diese Strecke dann möglichst genau
-abfährt. Am Ende soll der Roboter drive(50) cm auf dem Tisch zurücklegen,
-sich um rotate(180)° drehen und wieder drive(50) cm fahren, sodass dieser
-wieder zum Ausgangspunkt zurückkommt. Es bleibt den Teams überlassen, ob die
-Messung der Rotation über die Odometrie oder/und den Gyro umgesetzt wird.
+Je stärker die zulässige Bandbreite (256 – 5 Hz) limitiert wird, desto stabiler wird der Wert. Die Auflösung des AD-Wandlers des MPU 9150 beträgt 16 Bit. Als maximale Drehrate ist im Defaultzustand +-250°/s (für unsere Anwendung im Normalfall ausreichend) vorkonfiguiert.
+
+
+
+Die PWM Frequenz sollte unter 100 oder über 15000Hz liegen, sodass die Motoren keinen Pfeifton erzeugen.
+
  */
 
 // D6 PWM (OC4A), D7 PWM (OC4B)
@@ -45,20 +46,13 @@ boolean neg = false;
 double xangle = 0;
 double yangle = 0;
 String inputString = "";
-boolean stringComplete = false;
 String commandList[10];
+int commandNumber = 0;
+boolean stringComplete = false;
 
 byte EngIn[4] = {0, 0, 0, 0};
 
 int m_targetAddress;
-
-//for interrupt handling
-volatile int engLeftTic = 0;
-volatile int engRightTic = 0;
-volatile int setpoint, measured_value, prev_error = 0, integral, lastTime, error, derivative, output, Kp = 17, Ki = 2, Kd = 10;
-int stage = 0;
-
-boolean distanceCompl = false;
 
 void waitms(double timer) {
   double newtimer;
@@ -120,25 +114,16 @@ void setup() {
 
   inputString.reserve(200);
 
-  textOut();
 }
 
 void loop()
 {
   if (Serial.available()) {
     inputString = Serial.readString();
-    if (inputString.compareTo("42")==0){
-      mode = 0;
-      //IMU_Heading_Target = input;
-    }
-    else{
-      Serial.println(inputString);
-      mode = 4;
-    }
-    Serial.print("Drehe von aktuell ");
-    Serial.print(IMU_Heading);
-    Serial.print(" auf neu: ");
-    Serial.println(IMU_Heading_Target);
+
+    manipulateString(inputString);
+
+    mode = 4;
   }
 
   IMU_calcHeading();
@@ -177,19 +162,39 @@ void loop()
       else if (delta < -10) EngTurn(0, 154);
       else if (delta > 3) EngTurn(1, 145);
       else if (delta < -3) EngTurn(0, 145);
-      else EngStopp();
+      else {
+        EngStopp();
+        mode = 4;
+      }
 
       break;
 
     case 4:
-      manipulateString(inputString);
-      for(int i=0;i<10;i++){
-        if(commandList[i]!=""){
-          commandExecute(commandList[i]);
-        }
+
+      mode = commandExecute(commandList[commandNumber]);
+      /*
+      wenn mode == 3 normaler LeftTurn
+      wenn mode == 6 RightTurn
+      -> Achtung mode 3 geht nur für LeftTurn
+      -> LeftTurn umschreiben
+      wenn mode == 5 drive forward
+      -> muss noch umgesetzt werden
+      wenn mode == 0 -> Kommandoliste abgearbeitet
+      */
+
+      if(mode==3){
+        IMU_Heading_Target = getNumber(commandList[commandNumber]);
       }
 
-    break;
+      commandNumber++;
+
+      break;
+
+    case 7:
+      EngStopp();
+
+      break;
+
     default:
       // Aufgabe 3a: Kollisionsfrei fahren (Meggie)
       distance = getDistance2(SEN_GP2D12047, 0);
